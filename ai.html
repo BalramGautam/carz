@@ -122,7 +122,8 @@
 
 <script>
     const chat = document.getElementById('chat');
-    const inputField = document.getElementById('input'); // Matches your HTML id="input"
+    // FIXED: Changed 'input' to 'userInput' to match your HTML above
+    const inputField = document.getElementById('userInput'); 
     const sendBtn = document.getElementById('sendBtn');
 
     function addMessage(sender, text) {
@@ -134,6 +135,11 @@
     }
 
     async function askAI() {
+        if (!inputField) {
+            console.error("Input field not found!");
+            return;
+        }
+
         const question = inputField.value.trim();
         if (!question) return;
 
@@ -154,8 +160,13 @@
             });
 
             const data = await response.json();
-            chat.removeChild(loadingDiv);
-            addMessage("ai", data.reply);
+            
+            if (chat.contains(loadingDiv)) chat.removeChild(loadingDiv);
+            
+            // Handle cases where the server might return an error message
+            const reply = data.reply || data.error || "Engine stalled. Try again!";
+            addMessage("ai", reply);
+            
         } catch (error) {
             if (chat.contains(loadingDiv)) chat.removeChild(loadingDiv);
             addMessage("ai", "Connection failed. Please refresh the page.");
@@ -164,13 +175,19 @@
     }
 
     // Attach the events
-    sendBtn.addEventListener('click', askAI);
-    inputField.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') askAI();
-    });
+    if (sendBtn) {
+        sendBtn.addEventListener('click', askAI);
+    }
+    
+    if (inputField) {
+        inputField.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') askAI();
+        });
+    }
 </script>
 </body>
 </html>
+
 
 
 
