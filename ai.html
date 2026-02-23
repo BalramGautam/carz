@@ -134,36 +134,33 @@
         chat.scrollTop = chat.scrollHeight; // Auto-scroll to bottom
     }
 
-    async function askAI() {
-        const question = userInput.value.trim();
-        if (question === "") return;
+async function askAI() {
+    const question = input.value.trim();
+    if (question === "") return;
 
-        addMessage("user", question);
-        userInput.value = "";
+    addMessage("user", question);
+    input.value = "";
+    
+    const loadingDiv = document.createElement("div");
+    loadingDiv.className = "message ai";
+    loadingDiv.innerHTML = `<b class="ai">CarGPT:</b> Typing...`;
+    chat.appendChild(loadingDiv);
+
+    try {
+        const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt: question })
+        });
         
-        // Show Typing indicator
-        const loadingDiv = document.createElement("div");
-        loadingDiv.className = "message ai";
-        loadingDiv.innerHTML = `<b>CarGPT:</b> Typing...`;
-        chat.appendChild(loadingDiv);
-        chat.scrollTop = chat.scrollHeight;
-
-        try {
-            const response = await fetch('/api/chat', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ prompt: question })
-            });
-            
-            const data = await response.json();
-            
-            chat.removeChild(loadingDiv);
-            addMessage("ai", data.reply);
-        } catch (error) {
-            if (chat.contains(loadingDiv)) chat.removeChild(loadingDiv);
-            addMessage("ai", "Error connecting to the garage. Please try again!");
-        }
+        const data = await response.json();
+        chat.removeChild(loadingDiv);
+        addMessage("ai", data.reply);
+    } catch (error) {
+        if (chat.contains(loadingDiv)) chat.removeChild(loadingDiv);
+        addMessage("ai", "Connection error. Is the server awake?");
     }
+}
 
     // Click button to send
     sendBtn.addEventListener('click', askAI);
@@ -175,4 +172,5 @@
 </script>
 </body>
 </html>
+
 
