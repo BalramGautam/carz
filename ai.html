@@ -1,0 +1,168 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Car AI Assistant</title>
+
+<link rel="icon" type="image/png" href="favicon.png">
+
+<style>
+body{
+    margin:0;
+    background:#0f172a;
+    font-family:Arial, Helvetica, sans-serif;
+    color:white;
+    display:flex;
+    flex-direction:column;
+    min-height:100vh;
+}
+
+.main{
+    flex:1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.container{
+    width:600px;
+    max-width:95%;
+    background:#020617;
+    border-radius:12px;
+    padding:20px;
+    box-shadow:0 0 20px rgba(0,0,0,0.6);
+}
+
+h1{
+    text-align:center;
+    margin-top:0;
+}
+
+#chat{
+    height:420px;
+    overflow-y:auto;
+    border:1px solid #334155;
+    padding:12px;
+    border-radius:8px;
+    margin-bottom:15px;
+}
+
+.message{
+    margin:10px 0;
+    line-height:1.4;
+}
+
+.user{
+    color:#38bdf8;
+}
+
+.ai{
+    color:#22c55e;
+}
+
+.input-area{
+    display:flex;
+    gap:10px;
+}
+
+input{
+    flex:1;
+    padding:10px;
+    border:none;
+    border-radius:6px;
+    outline:none;
+    font-size:15px;
+}
+
+button{
+    padding:10px 18px;
+    background:#2563eb;
+    border:none;
+    color:white;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+button:hover{
+    background:#1d4ed8;
+}
+
+footer{
+    text-align:center;
+    padding:20px;
+    background:#020617;
+    border-top:1px solid #334155;
+}
+
+footer a{
+    color:#38bdf8;
+    text-decoration:none;
+    font-size:14px;
+}
+
+footer a:hover{
+    text-decoration:underline;
+}
+</style>
+</head>
+
+<body>
+
+<div class="main">
+<div class="container">
+<h1> CarGPT</h1>
+
+<div id="chat"></div>
+
+<div class="input-area">
+<input id="input" placeholder="Ask anything about cars..." autocomplete="off">
+<button id="sendBtn">Send</button>
+</div>
+
+</div>
+</div>
+
+<footer>
+<a href='/'>Home</a><br>
+<a href="about.html">About</a><br>
+<a href="mailto:gautambalram2069@gmail.com">Contact Us</a>
+</footer>
+<script>
+async function askAI() {
+    const question = input.value.trim();
+    if (question === "") return;
+
+    // Add user message to UI
+    addMessage("user", question);
+    input.value = "";
+    
+    // Add a "Thinking..." placeholder
+    const loadingDiv = document.createElement("div");
+    loadingDiv.className = "message ai";
+    loadingDiv.innerHTML = `<b class="ai">CarAI:</b> Typing...`;
+    chat.appendChild(loadingDiv);
+
+    try {
+       const response = await fetch('/api/chat', { ... });
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt: question })
+        });
+        
+        const data = await response.json();
+        
+        // Remove "Typing..." and add real response
+        chat.removeChild(loadingDiv);
+        addMessage("ai", data.reply);
+    } catch (error) {
+        chat.removeChild(loadingDiv);
+        addMessage("ai", "Error connecting to the garage. Is the server running?");
+    }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,244 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="favicon.png">
+<title>Engine Types</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI', sans-serif;
+}
+
+body{
+    background: linear-gradient(135deg,#0b0f19,#141e30,#0f2027);
+    color:white;
+    display:flex;
+    flex-direction:column;
+    min-height:100vh;
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    font-size:2.5rem;
+    letter-spacing:3px;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
+    border-bottom:1px solid rgba(255,255,255,0.1);
+}
+
+.section{
+    padding:60px 10%;
+    line-height:1.8;
+}
+
+.section h2{
+    margin-bottom:20px;
+    font-size:1.8rem;
+    color:#00ffff;
+}
+
+.section p{
+    margin-bottom:20px;
+    opacity:0.9;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+    gap:30px;
+    padding:40px 10%;
+}
+
+.card{
+    background: rgba(255,255,255,0.05);
+    border-radius:15px;
+    padding:25px;
+    backdrop-filter: blur(10px);
+    border:1px solid rgba(255,255,255,0.1);
+    transition:0.4s;
+    text-align:left;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+    border:1px solid #00ffff;
+    box-shadow:0 10px 25px rgba(0,0,0,0.6);
+}
+
+.card img{
+    width:100%;
+    height:180px;
+    object-fit:cover;
+    border-radius:10px;
+    margin-bottom:15px;
+}
+
+.card h3{
+    margin-bottom:10px;
+    font-size:1.2rem;
+    text-align:center;
+}
+
+.card p{
+    font-size:0.9rem;
+    opacity:0.9;
+    line-height:1.6;
+    margin-bottom:10px;
+}
+
+.examples{
+    font-size:0.85rem;
+    color:#00ffff;
+}
+
+footer{
+    margin-top:auto;
+    text-align:center;
+    padding:25px;
+    background: rgba(255,255,255,0.05);
+    border-top:1px solid rgba(255,255,255,0.1);
+}
+
+footer a{
+    text-decoration:none;
+    color:#9ca3af;
+    transition:0.3s;
+}
+
+footer a:hover{
+    color:#00ffff;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+Engine Technology & Types
+</header>
+
+<section class="section">
+<h2>Engine Notation Explained</h2>
+<p>
+Engine notation identifies both the layout and number of cylinders in an engine. 
+For example, I4 stands for Inline 4-cylinder, meaning four cylinders arranged in a straight row. 
+V8 means eight cylinders arranged in two banks forming a V shape. 
+V12, I6, and V6 follow the same logic — the letter describes the configuration, 
+while the number indicates how many cylinders are present. 
+This notation helps enthusiasts quickly understand performance potential, smoothness, and engine character.
+</p>
+</section>
+
+<section class="section">
+<h2>How an Engine Works</h2>
+<p>
+Internal combustion engines operate through a four-stroke cycle: intake, compression, combustion, and exhaust. 
+During intake, air and fuel enter the cylinder. Compression increases pressure and prepares the mixture for ignition. 
+A spark plug ignites the mixture, causing combustion that forces the piston downward. 
+This linear motion rotates the crankshaft, converting chemical energy into mechanical power that drives the wheels. 
+Electric motors operate differently by converting electrical energy directly into rotational motion using magnetic fields.
+</p>
+</section>
+
+<section class="section">
+<h2>Types of Engines</h2>
+</section>
+
+<div class="grid">
+
+<div class="card">
+<img src="inline.jpg" alt="Inline Engine">
+<h3>Inline Engine</h3>
+<p>
+Inline engines have cylinders arranged in a straight line. They are simple in design,
+cost-effective to manufacture, and widely used in everyday vehicles.
+Inline-4 engines are common in compact cars, while Inline-6 engines are known for their smooth operation and balanced performance.
+</p>
+<p class="examples">
+Examples: Toyota Supra MK4 (I6), BMW 3 Series, Honda Civic, Nissan Skyline GT-R R34, Mazda MX-5
+</p>
+</div>
+
+<div class="card">
+<img src="v.jpg" alt="V Engine">
+<h3>V Engine</h3>
+<p>
+V engines arrange cylinders in two angled banks forming a V shape.
+This configuration allows more cylinders in a compact space,
+making it ideal for high-performance vehicles. V6 engines balance efficiency and power,
+while V8, V10, and V12 engines are known for strong acceleration and deep exhaust notes.
+</p>
+<p class="examples">
+Examples: Ford Mustang GT, Chevrolet Camaro, Ferrari 488 GTB, Lamborghini Huracán, Mercedes-AMG C63
+</p>
+</div>
+
+<div class="card">
+<img src="boxer.jpg" alt="Boxer Engine">
+<h3>Boxer Engine</h3>
+<p>
+Boxer engines use horizontally opposed cylinders that move outward like boxers throwing punches.
+This layout lowers the center of gravity, improving stability and handling.
+It is commonly used by brands focused on balanced driving dynamics.
+</p>
+<p class="examples">
+Examples: Subaru WRX STI, Subaru BRZ, Porsche 911, Porsche Cayman, Toyota 86
+</p>
+</div>
+
+<div class="card">
+<img src="rotary.jpg" alt="Rotary Engine">
+<h3>Rotary Engine</h3>
+<p>
+Rotary engines replace pistons with a spinning triangular rotor.
+They are compact, lightweight, and capable of very high RPM.
+Although less common due to fuel efficiency challenges,
+they are loved for their smooth power delivery and unique sound.
+</p>
+<p class="examples">
+Examples: Mazda RX-7, Mazda RX-8, Mazda Cosmo, Mazda RX-3, Mazda RX-2
+</p>
+</div>
+
+<div class="card">
+<img src="motor.jpg" alt="Electric Motor">
+<h3>Electric Motor</h3>
+<p>
+Electric motors use electromagnetic fields to produce rotation.
+They provide instant torque, smooth acceleration, and high efficiency.
+Unlike combustion engines, they have fewer moving parts and require less maintenance.
+</p>
+<p class="examples">
+Examples: Tesla Model S, Porsche Taycan, Rimac Nevera, Nissan Leaf, BMW i4
+</p>
+</div>
+
+<div class="card">
+<img src="hybrid.jpg" alt="Hybrid Engine">
+<h3>Hybrid Engine</h3>
+<p>
+Hybrid engines combine a traditional internal combustion engine with one or more electric motors.
+They improve fuel economy while maintaining strong performance.
+Hybrid systems can switch between electric and combustion power or use both simultaneously.
+</p>
+<p class="examples">
+Examples: Toyota Prius, McLaren P1, Ferrari LaFerrari, Porsche 918 Spyder, Honda Accord Hybrid
+</p>
+</div>
+
+</div>
+
+<footer>
+<a href="index.html">Home</a><br>
+<a href="about.html">About</a><br>
+<a href="mailto:gautambalram2069@gmail.com">Contact Us</a>
+</footer>
+
+</body>
+</html>

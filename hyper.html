@@ -1,0 +1,432 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="favicon.png">    
+<title>Hypercars</title>
+    <style>
+      :root {
+            --accent: #00f2ff; /* Cyber Cyan */
+            --accent-dim: rgba(0, 242, 255, 0.15);
+            --bg: #050507;
+            --card: #0d0d12;
+            --text: #e0e0e0;
+            --border: #1f1f27;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--bg);
+            background-image: 
+                radial-gradient(circle at 50% 0%, #1a1a2e 0%, transparent 50%),
+                linear-gradient(rgba(18, 18, 20, 0.8) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(18, 18, 20, 0.8) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
+            color: var(--text);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            text-align: center;
+            padding: 100px 20px;
+            background: transparent;
+            position: relative;
+            border-bottom: 1px solid var(--border);
+        }
+
+        header h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 12px;
+            font-weight: 900;
+            background: linear-gradient(to bottom, #fff 30%, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(0, 242, 255, 0.3));
+        }
+
+        header p {
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        #controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 25px;
+            position: sticky;
+            top: 0;
+            background: rgba(5, 5, 7, 0.8);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+
+        input, select {
+            padding: 12px 20px;
+            border-radius: 0px; /* Sharp futuristic edges */
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--accent);
+            font-size: 0.9rem;
+            transition: 0.3s;
+            outline: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 15px var(--accent-dim);
+            background: rgba(255, 255, 255, 0.07);
+        }
+
+        #grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+            padding: 50px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .car-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        /* Top Corner Accent */
+        .car-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, transparent 50%, var(--border) 50%);
+        }
+
+        .car-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 20px var(--accent-dim);
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 200px;
+            background: #000;
+            position: relative;
+            overflow: hidden;
+            font-size: 0.6rem;
+            color: var(--accent);
+            opacity: 0.6;
+        }
+
+        /* Scanning Animation */
+        .image-placeholder::after {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, var(--accent-dim), transparent);
+            animation: scan 3s infinite linear;
+        }
+
+        @keyframes scan {
+            0% { top: -100%; }
+            100% { top: 100%; }
+        }
+
+        .car-content {
+            padding: 25px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, transparent 100%);
+        }
+
+        .car-title {
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #fff;
+        }
+
+        .car-year {
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 2px 8px;
+            font-size: 0.75rem;
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+        }
+
+        .car-specs {
+            font-size: 0.85rem;
+            color: #999;
+            margin: 20px 0;
+            border-left: 2px solid var(--border);
+            padding-left: 15px;
+        }
+
+        .car-specs strong {
+            color: var(--accent);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .car-features {
+            font-size: 0.8rem;
+            color: #555;
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        #load-more {
+            display: block;
+            margin: 60px auto;
+            padding: 18px 45px;
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            cursor: pointer;
+            transition: 0.4s;
+            position: relative;
+        }
+
+        #load-more:hover {
+            background: var(--accent);
+            color: #000;
+            box-shadow: 0 0 30px var(--accent);
+        }
+
+        footer {
+            padding: 80px 20px;
+            background: #020203;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        footer a {
+            color: #444;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            transition: 0.3s;
+            display: inline-block;
+            margin: 5px 0;
+        }
+
+        footer a:hover {
+            color: var(--accent);
+        } </style>
+</head>
+<body>
+
+<header>
+    <h1>Hypercar </h1>
+    <p>The beasts of the car world!!</p>
+</header>
+
+<div id="controls">
+    <input type="text" id="search" placeholder="Search brands, engines, features...">
+    <select id="sort-select">
+        <option value="year-desc">Newest First</option>
+        <option value="year-asc">Oldest First</option>
+        <option value="speed">Fastest (km/h)</option>
+    </select>
+</div>
+
+<div id="grid"></div>
+<button id="load-more">Load More </button>
+
+<footer>
+    <a href="index.html">Home</a><br>
+<a href="about.html">About</a><br>
+<a href="mailto:gautambalram2069@gmail.com">Contact Us</a>
+</footer>
+
+<script>
+const carData = [
+{ name: "Bugatti Chiron", year: 2016, speed: 420, engine: "8.0L W16 Quad-Turbo", features: "AWD, 7-speed DCT" },
+{ name: "Bugatti Chiron Super Sport 300+", year: 2019, speed: 490, engine: "8.0L W16 Quad-Turbo", features: "Longtail aero package" },
+{ name: "Bugatti Divo", year: 2019, speed: 380, engine: "8.0L W16 Quad-Turbo", features: "Track-focused aero tuning" },
+{ name: "Bugatti Centodieci", year: 2022, speed: 380, engine: "8.0L W16 Quad-Turbo", features: "EB110-inspired design" },
+{ name: "Bugatti Mistral", year: 2024, speed: 420, engine: "8.0L W16 Quad-Turbo", features: "Roadster body" },
+{ name: "Bugatti Tourbillon", year: 2026, speed: 445, engine: "V16 Hybrid Twin-Turbo", features: "Naturally aspirated V16 + hybrid assist" },
+{ name: "McLaren F1", year: 1992, speed: 386, engine: "6.1L V12 Naturally Aspirated", features: "Central driving position" },
+{ name: "McLaren P1", year: 2013, speed: 350, engine: "3.8L V8 Twin-Turbo", features: "Active aero + hybrid boost" },
+{ name: "McLaren Speedtail", year: 2020, speed: 403, engine: "4.0L V8 Twin-Turbo", features: "3-seat layout, teardrop body" },
+{ name: "McLaren W1", year: 2025, speed: 390, engine: "4.0L V8 Twin-Turbo", features: "Advanced hybrid system" },
+{ name: "Mercedes-AMG ONE", year: 2023, speed: 352, engine: "1.6L V6 Single-Turbo", features: "F1-derived power unit" },
+{ name: "Koenigsegg Agera RS", year: 2015, speed: 447, engine: "5.0L V8 Twin-Turbo", features: "Removable roof" },
+{ name: "Koenigsegg Jesko", year: 2023, speed: 482, engine: "5.0L V8 Twin-Turbo", features: "Light Speed Transmission (LST)" },
+{ name: "Koenigsegg Jesko Absolut", year: 2023, speed: 530, engine: "5.0L V8 Twin-Turbo", features: "Low-drag top speed spec" },
+{ name: "Koenigsegg Gemera", year: 2024, speed: 400, engine: "5.0L V8 Twin-Turbo", features: "4-seat hypercar" },
+{ name: "Pagani Huayra", year: 2012, speed: 383, engine: "6.0L V12 Twin-Turbo", features: "Active aero flaps" },
+{ name: "Pagani Huayra BC", year: 2016, speed: 370, engine: "6.0L V12 Twin-Turbo", features: "Lightweight carbon-titanium chassis" },
+{ name: "Pagani Utopia", year: 2023, speed: 350, engine: "6.0L V12 Naturally Aspirated", features: "Manual transmission option" },
+{ name: "Ferrari LaFerrari", year: 2013, speed: 350, engine: "6.3L V12 Naturally Aspirated", features: "HY-KERS hybrid system" },
+{ name: "Ferrari LaFerrari Aperta", year: 2016, speed: 350, engine: "6.3L V12 Naturally Aspirated", features: "Open-top hybrid" },
+{ name: "Ferrari SF90 Stradale", year: 2019, speed: 340, engine: "4.0L V8 Twin-Turbo", features: "AWD hybrid" },
+{ name: "Ferrari F80", year: 2025, speed: 350, engine: "3.0L V6 Twin-Turbo", features: "Next-gen hybrid platform" },
+{ name: "Ferrari Enzo", year: 2002, speed: 355, engine: "6.0L V12 Naturally Aspirated", features: "F1-style paddle gearbox" },
+{ name: "Ferrari F40", year: 1987, speed: 324, engine: "2.9L V8 Twin-Turbo", features: "Kevlar composite body" },
+{ name: "Ferrari F50", year: 1995, speed: 325, engine: "4.7L V12 Naturally Aspirated", features: "F1-derived engine" },
+{ name: "Porsche 918 Spyder", year: 2013, speed: 345, engine: "4.6L V8 Naturally Aspirated", features: "Plug-in hybrid AWD" },
+{ name: "Aston Martin Valkyrie", year: 2022, speed: 402, engine: "6.5L V12 Naturally Aspirated", features: "F1 aerodynamic design" },
+{ name: "Aston Martin Valkyrie AMR Pro", year: 2023, speed: 360, engine: "6.5L V12 Naturally Aspirated", features: "Track-only version" },
+{ name: "Lamborghini Sián", year: 2020, speed: 350, engine: "6.5L V12 Naturally Aspirated", features: "Supercapacitor hybrid" },
+{ name: "Lamborghini Revuelto", year: 2024, speed: 350, engine: "6.5L V12 Naturally Aspirated", features: "Triple-motor hybrid" },
+{ name: "Lamborghini Centenario", year: 2016, speed: 350, engine: "6.5L V12 Naturally Aspirated", features: "Rear-wheel steering" },
+{ name: "Lamborghini Aventador Ultimae", year: 2022, speed: 355, engine: "6.5L V12 Naturally Aspirated", features: "Final Aventador edition" },
+{ name: "SSC Tuatara", year: 2020, speed: 475, engine: "5.9L V8 Twin-Turbo", features: "Carbon monocoque" },
+{ name: "Hennessey Venom F5", year: 2022, speed: 484, engine: "6.6L V8 Twin-Turbo", features: "Fury engine" },
+{ name: "Rimac Nevera", year: 2022, speed: 412, engine: "Electric", features: "Quad-motor AWD torque vectoring" },
+{ name: "Rimac Nevera R", year: 2024, speed: 412, engine: "Electric", features: "Enhanced aero package" },
+{ name: "Lotus Evija", year: 2023, speed: 350, engine: "Electric", features: "4-motor setup" },
+{ name: "Pininfarina Battista", year: 2022, speed: 350, engine: "Electric", features: "Italian carbon design" },
+{ name: "Aspark Owl", year: 2020, speed: 413, engine: "Electric", features: "Carbon monocoque" },
+{ name: "McMurtry Spéirling", year: 2024, speed: 306, engine: "Electric", features: "Fan-based downforce system" },
+{ name: "W Motors Lykan Hypersport", year: 2013, speed: 395, engine: "3.7L Flat-6 Twin-Turbo", features: "Diamond-studded headlights" },
+{ name: "Zenvo Aurora", year: 2025, speed: 450, engine: "6.6L V12 Quad-Turbo", features: "Modular hybrid system" },
+{ name: "Zenvo ST1", year: 2009, speed: 375, engine: "6.8L V8 Twin-Turbo", features: "Adjustable driving modes" },
+{ name: "Zenvo TS1 GT", year: 2017, speed: 375, engine: "5.8L V8 Twin-Turbo", features: "Grand touring focus" },
+{ name: "Devel Sixteen", year: 2025, speed: 560, engine: "12.3L V16 Quad-Turbo", features: "Claimed 5000+ hp" },
+{ name: "Apollo Intensa Emozione", year: 2019, speed: 335, engine: "6.3L V12 Naturally Aspirated", features: "Extreme track aero" },
+{ name: "Gumpert Apollo", year: 2005, speed: 360, engine: "4.2L V8 Twin-Turbo", features: "Nürburgring-focused setup" },
+{ name: "Apollo Arrow", year: 2016, speed: 360, engine: "4.0L V8 Twin-Turbo", features: "Carbon fiber chassis" },
+{ name: "Saleen S7 Twin Turbo", year: 2005, speed: 399, engine: "7.0L V8 Twin-Turbo", features: "Mid-engine layout" },
+{ name: "Noble M600", year: 2010, speed: 362, engine: "4.4L V8 Twin-Turbo", features: "Analog driving experience" },
+{ name: "Ascari A10", year: 2006, speed: 354, engine: "5.0L V8 Twin-Turbo", features: "Lightweight chassis" },
+{ name: "Spania GTA Spano", year: 2015, speed: 370, engine: "8.4L V10 Twin-Turbo", features: "Graphene elements" },
+{ name: "Mazzanti Evantra Millecavalli", year: 2016, speed: 402, engine: "7.2L V8 Twin-Turbo", features: "Limited production" },
+{ name: "SCG 004S", year: 2021, speed: 350, engine: "6.2L V8 Twin-Turbo", features: "3-seat layout" },
+{ name: "SCG 003S", year: 2020, speed: 350, engine: "4.4L V8 Twin-Turbo", features: "Race-derived aero" },
+{ name: "Jaguar XJ220", year: 1992, speed: 341, engine: "3.5L V6 Twin-Turbo", features: "Aluminum honeycomb chassis" },
+{ name: "Vector W8", year: 1989, speed: 389, engine: "6.0L V8 Twin-Turbo", features: "Fighter-jet cockpit" },
+{ name: "SSC Ultimate Aero", year: 2007, speed: 412, engine: "6.3L V8 Twin-Turbo", features: "Former speed record holder" },
+{ name: "Cizeta V16T", year: 1991, speed: 328, engine: "6.0L V16 Twin-Turbo", features: "Transverse V16 layout" },
+{ name: "Pagani Zonda Cinque", year: 2009, speed: 350, engine: "7.3L V12 Naturally Aspirated", features: "Titanium components" },
+{ name: "Pagani Zonda HP Barchetta", year: 2017, speed: 355, engine: "7.3L V12 Naturally Aspirated", features: "Open rear wheels" },
+{ name: "Lamborghini Sesto Elemento", year: 2011, speed: 350, engine: "5.2L V10 Naturally Aspirated", features: "Full carbon construction" },
+{ name: "Maserati MC12", year: 2004, speed: 330, engine: "6.0L V12 Naturally Aspirated", features: "Enzo-based platform" },
+{ name: "Ford GT (2017)", year: 2017, speed: 347, engine: "3.5L V6 Twin-Turbo", features: "Active aero wing" },
+{ name: "Ford GT (2005)", year: 2005, speed: 330, engine: "5.4L V8 Supercharged", features: "Retro-inspired design" },
+{ name: "Caparo T1", year: 2006, speed: 330, engine: "3.5L V8 Naturally Aspirated", features: "Open-wheel style" },
+{ name: "Donkervoort D8 GTO", year: 2014, speed: 255, engine: "2.5L I5 Turbocharged", features: "Lightweight roadster" },
+{ name: "Trion Nemesis RR", year: 2020, speed: 434, engine: "6.2L V8 Twin-Turbo", features: "Active rear wing" },
+{ name: "RUF CTR3", year: 2012, speed: 380, engine: "Flat-6 Twin-Turbo", features: "Porsche-based platform" },
+{ name: "Saleen S5S Raptor", year: 2007, speed: 320, engine: "V8 Twin-Turbo", features: "Concept hypercar" },
+{ name: "Mega Track", year: 2021, speed: 400, engine: "6.0L V12 Twin-Turbo", features: "SUV-hypercar crossover" },
+{ name: "Ultima Evolution", year: 2022, speed: 386, engine: "V8 Twin-Turbo", features: "Kit-car option" },
+{ name: "Mosler MT900", year: 2010, speed: 320, engine: "V8 Naturally Aspirated", features: "Track-oriented chassis" },
+{ name: "Alfa Romeo 8C Competizione", year: 2007, speed: 292, engine: "4.7L V8 Naturally Aspirated", features: "Limited production" },
+{ name: "Lamborghini Diablo GT", year: 1999, speed: 338, engine: "6.0L V12 Naturally Aspirated", features: "RWD focus" },
+{ name: "Ferrari 288 GTO", year: 1984, speed: 305, engine: "2.9L V8 Twin-Turbo", features: "Group B homologation" },
+{ name: "Porsche Carrera GT", year: 2004, speed: 334, engine: "5.7L V10 Naturally Aspirated", features: "Carbon clutch" },
+{ name: "GMA T.50", year: 2020, speed: 365, engine: "4.0L V12 Naturally Aspirated", features: "Rear-mounted fan" },
+{ name: "GMA T.33", year: 2024, speed: 350, engine: "4.0L V12 Naturally Aspirated", features: "Lightweight philosophy" },
+{ name: "Isdera Commendatore 112i", year: 1993, speed: 342, engine: "V12 Naturally Aspirated", features: "Gullwing doors" },
+{ name: "Bugatti EB110", year: 1992, speed: 342, engine: "3.5L V12 Quad-Turbo", features: "AWD system" },
+{ name: "Lamborghini Veneno", year: 2013, speed: 356, engine: "6.5L V12 Naturally Aspirated", features: "Extreme aero styling" },
+{ name: "Ferrari Monza SP2", year: 2022, speed: 300, engine: "6.5L V12 Naturally Aspirated", features: "Barchetta body" },
+{ name: "Aston Martin One-77", year: 2009, speed: 354, engine: "7.3L V12 Naturally Aspirated", features: "Carbon chassis" },
+{ name: "Koenigsegg CCXR", year: 2007, speed: 402, engine: "4.8L V8 Twin-Turbo", features: "Flex-fuel capability" },
+{ name: "Koenigsegg Regera", year: 2016, speed: 410, engine: "5.0L V8 Twin-Turbo", features: "Direct Drive system" },
+{ name: "Zenvo TSR-S", year: 2018, speed: 325, engine: "5.8L V8 Twin-Turbo", features: "Tilting rear wing" },
+{ name: "Aston Martin Victor", year: 2020, speed: 335, engine: "7.3L V12 Naturally Aspirated", features: "One-off build" },
+{ name: "Pagani Huayra R", year: 2022, speed: 320, engine: "6.0L V12 Naturally Aspirated", features: "Track-only version" },
+{ name: "Lamborghini SC20", year: 2020, speed: 350, engine: "6.5L V12 Naturally Aspirated", features: "One-off roadster" },
+{ name: "Ferrari Daytona SP3", year: 2022, speed: 340, engine: "6.5L V12 Naturally Aspirated", features: "Icona series" },
+{ name: "Porsche 959", year: 1986, speed: 317, engine: "2.8L Flat-6 Twin-Turbo", features: "Advanced AWD (PSK)" },
+{ name: "Nissan R390 GT1", year: 1998, speed: 354, engine: "3.5L V8 Twin-Turbo", features: "Le Mans homologation" },
+{ name: "McLaren Solus GT", year: 2022, speed: 322, engine: "5.2L V10 Naturally Aspirated", features: "Single-seat cockpit" },
+{ name: "Toyota GR Super Sport", year: 2022, speed: 350, engine: "V6 Twin-Turbo", features: "Le Mans Hypercar basis" },
+{ name: "Peugeot 9X8", year: 2022, speed: 330, engine: "V6 Twin-Turbo Hybrid", features: "LMH prototype" },
+{ name: "Jaguar C-X75", year: 2010, speed: 330, engine: "V8 Twin-Turbo + Electric", features: "Hybrid concept car" }
+];
+
+    let itemsDisplayed = 12;
+    const grid = document.getElementById('grid');
+    const searchInput = document.getElementById('search');
+    const sortSelect = document.getElementById('sort-select');
+    const loadMoreBtn = document.getElementById('load-more');
+
+    function render() {
+        let filtered = carData.filter(car => 
+            car.name.toLowerCase().includes(searchInput.value.toLowerCase()) ||
+            car.engine.toLowerCase().includes(searchInput.value.toLowerCase()) ||
+            car.features.toLowerCase().includes(searchInput.value.toLowerCase())
+        );
+
+        if (sortSelect.value === 'year-desc') filtered.sort((a,b) => b.year - a.year);
+        if (sortSelect.value === 'year-asc') filtered.sort((a,b) => a.year - b.year);
+        if (sortSelect.value === 'speed') filtered.sort((a,b) => b.speed - a.speed);
+
+        grid.innerHTML = '';
+        const toShow = filtered.slice(0, itemsDisplayed);
+
+        toShow.forEach(car => {
+            const card = document.createElement('div');
+            card.className = 'car-card';
+            card.innerHTML = `
+                <div class="image-placeholder">IMAGE PENDING</div>
+                <div class="car-content">
+                    <div class="car-header">
+                        <h3 class="car-title">${car.name}</h3>
+                        <span class="car-year">${car.year}</span>
+                    </div>
+                    <div class="car-specs">
+                        <strong>Powertrain:</strong> ${car.engine}<br>
+                        <strong>Top Speed:</strong> ${car.speed} km/h
+                    </div>
+                    <div class="car-features">
+                        ${car.features}
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+
+        loadMoreBtn.style.display = itemsDisplayed >= filtered.length ? 'none' : 'block';
+    }
+
+    loadMoreBtn.addEventListener('click', () => {
+        itemsDisplayed += 12;
+        render();
+    });
+
+    searchInput.addEventListener('input', () => {
+        itemsDisplayed = 12;
+        render();
+    });
+
+    sortSelect.addEventListener('change', () => {
+        itemsDisplayed = 12;
+        render();
+    });
+
+    render();
+</script>
+
+</body>
+</html>

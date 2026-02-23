@@ -1,0 +1,261 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="favicon.png">
+<title>Major Car-Producing Countries</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI', sans-serif;
+}
+.grid a{
+    text-decoration:none;
+    color:inherit;
+}
+body{
+    background: linear-gradient(135deg,#0b0f19,#141e30,#0f2027);
+    color:white;
+    display:flex;
+    flex-direction:column;
+    min-height:100vh;
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    font-size:2.5rem;
+    letter-spacing:3px;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
+    border-bottom:1px solid rgba(255,255,255,0.1);
+}
+
+.section{
+    padding:60px 10%;
+    line-height:1.8;
+}
+
+.section h2{
+    color:#00ffff;
+    margin-bottom:20px;
+    font-size:1.8rem;
+    text-align:center;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+    gap:25px;
+    padding-bottom:40px;
+}
+
+.card{
+    background: rgba(255,255,255,0.05);
+    padding:25px;
+    border-radius:15px;
+    backdrop-filter: blur(10px);
+    border:1px solid rgba(255,255,255,0.1);
+    transition:0.4s;
+    text-align:center;
+}
+
+.card:hover{
+    transform:translateY(-6px);
+    border:1px solid #00ffff;
+}
+
+.card img{
+    width:80px;
+    height:50px;
+    object-fit:cover;
+    border-radius:5px;
+    margin-bottom:15px;
+}
+
+.card h3{
+    margin-bottom:10px;
+    font-size:1.2rem;
+}
+
+.card ul{
+    list-style-type: disc;
+    text-align:left;
+    margin:0 auto;
+    padding-left:20px;
+    opacity:0.85;
+    font-size:0.9rem;
+    line-height:1.6;
+    display:inline-block;
+}
+
+footer{
+    margin-top:auto;
+    text-align:center;
+    padding:25px;
+    background: rgba(255,255,255,0.05);
+    border-top:1px solid rgba(255,255,255,0.1);
+}
+
+footer a{
+    text-decoration:none;
+    color:#9ca3af;
+    transition:0.3s;
+}
+
+footer a:hover{
+    color:#00ffff;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+Major Car-Producing Countries
+</header>
+
+<section class="section">
+<div class="grid">
+
+<a href="japan.html">
+<div class="card">
+<img src="https://flagcdn.com/w320/jp.png" alt="Japan Flag">
+<h3>Japan</h3>
+<ul>
+<li>Toyota</li>
+<li>Honda</li>
+<li>Nissan</li>
+<li>Mazda</li>
+<li>Subaru</li>
+<li>Suzuki</li>
+<li>Lexus</li>
+</ul>
+</div>
+</a>
+
+<a href="italy.html">
+<div class="card">
+<img src="https://flagcdn.com/w320/it.png" alt="Italy Flag">
+<h3>Italy</h3>
+<ul>
+<li>Ferrari</li>
+<li>Lamborghini</li>
+<li>Maserati</li>
+<li>Fiat</li>
+<li>Alfa Romeo</li>
+<li>Lancia</li>
+</ul>
+</div>
+</a>
+
+<a href="sweden.html">
+<div class="card">
+<img src="https://flagcdn.com/w320/se.png" alt="Sweden Flag">
+<h3>Sweden</h3>
+<ul>
+<li>Volvo</li>
+<li>Koenigsegg</li>
+<li>Scania</li>
+</ul>
+</div>
+</a>
+
+<a href="france.html">
+<div class="card">
+<img src="https://flagcdn.com/w320/fr.png" alt="France Flag">
+<h3>France</h3>
+<ul>
+<li>Renault</li>
+<li>Peugeot</li>
+<li>Citroën</li>
+<li>Bugatti</li>
+</ul>
+</div>
+</a>
+
+<a href="germany.html">
+<div class="card">
+<img src="https://flagcdn.com/w320/de.png" alt="Germany Flag">
+<h3>Germany</h3>
+<ul>
+<li>BMW</li>
+<li>Mercedes-Benz</li>
+<li>Audi</li>
+<li>Porsche</li>
+<li>Volkswagen</li>
+<li>Opel</li>
+</ul>
+</div>
+</a>
+
+<a href="usa.html">
+<div class="card">
+<img src="https://flagcdn.com/w320/us.png" alt="USA Flag">
+<h3>United States</h3>
+<ul>
+<li>Ford</li>
+<li>Chevrolet</li>
+<li>Tesla</li>
+<li>Dodge</li>
+<li>Cadillac</li>
+<li>Jeep</li>
+</ul>
+</div>
+</a>
+
+<a href="korea.html">
+<div class="card">
+<img src="https://flagcdn.com/w320/kr.png" alt="South Korea Flag">
+<h3>South Korea</h3>
+<ul>
+<li>Hyundai</li>
+<li>Kia</li>
+<li>Genesis</li>
+</ul>
+</div>
+</a>
+
+<a href="uk.html">
+<div class="card">
+<img src="uk.jpg" alt="UK Flag">
+<h3>United Kingdom</h3>
+<ul>
+<li>Aston Martin</li>
+<li>Rolls-Royce</li>
+<li>Bentley</li>
+<li>McLaren</li>
+<li>Jaguar</li>
+<li>Lotus</li>
+</ul>
+</div>
+</a>
+
+<a href="india.html">
+<div class="card">
+<img src="https://flagcdn.com/w320/in.png" alt="India Flag">
+<h3>India</h3>
+<ul>
+<li>Tata</li>
+<li>Mahindra</li>
+<li>Maruti Suzuki</li>
+<li>Force Motors</li>
+</ul>
+</div>
+</a>
+
+</div>
+</section>
+
+<footer>
+<a href='/'>Home</a><br>
+<a href="about.html">About</a><br>
+<a href="mailto:gautambalram2069@gmail.com">Contact Us</a>
+</footer>
+
+</body>
+</html>

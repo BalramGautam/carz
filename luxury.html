@@ -1,0 +1,393 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury </title>
+
+<link rel="icon" type="image/png" href="favicon.png">
+    <style>
+        :root {
+            --accent: #d4af37;
+            --bg: #0f1113;
+            --card: #1c1f22;
+            --text: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Optima', 'Segoe UI', serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            text-align: center;
+            padding: 80px 20px;
+            background: radial-gradient(circle at center, #2c2f33 0%, var(--bg) 100%);
+            border-bottom: 1px solid var(--accent);
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            color: var(--accent);
+        }
+
+        #controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 25px;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            background: rgba(15, 17, 19, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            border-bottom: 1px solid #333;
+        }
+
+        input, select {
+            padding: 12px 20px;
+            border-radius: 4px;
+            border: 1px solid #444;
+            background: #111;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        #grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 30px;
+            padding: 40px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .car-card {
+            background: var(--card);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            border: 1px solid #2a2d30;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .car-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent);
+            box-shadow: 0 12px 40px rgba(212, 175, 55, 0.15);
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 230px;
+            background: #141618;
+            border-bottom: 1px solid #2a2d30;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: #3a3d40;
+            letter-spacing: 3px;
+        }
+
+        .car-content {
+            padding: 25px;
+            flex-grow: 1;
+        }
+
+        .car-header {
+            margin-bottom: 15px;
+        }
+
+        .car-brand {
+            color: var(--accent);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .car-title {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin: 0;
+            color: #fff;
+        }
+
+        .car-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        .car-year {
+            color: #888;
+        }
+
+        .car-price {
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .car-features {
+            font-size: 0.9rem;
+            padding-top: 15px;
+            margin-top: 15px;
+            border-top: 1px solid #2a2d30;
+            color: #aaa;
+            height: 60px;
+            overflow: hidden;
+        }
+
+        #load-more {
+            display: block;
+            margin: 50px auto;
+            padding: 14px 60px;
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            border-radius: 2px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        #load-more:hover {
+            background: var(--accent);
+            color: #000;
+        }
+
+        footer {
+            text-align: center;
+            padding: 80px;
+            background: #000;
+            color: #666;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1> Luxury Cars</h1>
+    <p>Prestige • Comfort • Innovation</p>
+</header>
+
+<div id="controls">
+    <input type="text" id="search" placeholder="Search brands, models, or features...">
+    <select id="sort-select">
+        <option value="brand-asc">Brand: A-Z</option>
+        <option value="year-desc">Year: Newest</option>
+        <option value="price-desc">Price: Highest</option>
+    </select>
+</div>
+
+<div id="grid"></div>
+<button id="load-more">Load More</button>
+
+<footer>
+       <a href="index.html">Home</a><br>
+    <a href="about.html">About</a><br>
+   <a href="mailto:gautambalram2069@gmail.com">Contact Us</a>
+</footer>
+
+<script>
+const carData = [
+    { brand: "Mercedes-Maybach", name: "S 580 4MATIC", year: "2026", price: 207150, features: "Ultra-luxury flagship sedan, executive rear seats.", image: null },
+    { brand: "Mercedes-Maybach", name: "S 680 4MATIC", year: "2026", price: 244400, features: "V12 flagship, ultra-premium comfort.", image: null },
+    { brand: "Mercedes-Maybach", name: "GLS", year: "2026", price: 300000, features: "Ultra-luxury full-size SUV, premium interior.", image: null },
+    { brand: "Mercedes-Maybach", name: "EQS SUV", year: "2026", price: 288000, features: "Ultra-luxury electric SUV, dual motors, limousine-like interior.", image: null },
+    { brand: "Mercedes-Benz", name: "S-Class (S 500 / S 580)", year: "2026", price: 115000, features: "Full-size luxury sedan, advanced tech.", image: null },
+    { brand: "Mercedes-Benz", name: "EQS Sedan", year: "2025", price: 102000, features: "Flagship electric luxury sedan.", image: null },
+    { brand: "Mercedes-Benz", name: "EQE Sedan", year: "2026", price: 64000, features: "Luxury EV sedan, premium interior.", image: null },
+    { brand: "Mercedes-Benz", name: "G-Class SUV", year: "2026", price: 140000, features: "Iconic luxury off-road SUV.", image: null },
+    { brand: "Mercedes-Benz", name: "EQB SUV", year: "2026", price: 70000, features: "Compact electric luxury SUV.", image: null },
+    { brand: "Mercedes-Benz", name: "EQE SUV", year: "2026", price: 66000, features: "Mid-size electric luxury SUV.", image: null },
+    { brand: "Mercedes-Benz", name: "EQS SUV", year: "2026", price: 90000, features: "Large luxury electric SUV, premium seating.", image: null },
+    { brand: "Mercedes-Benz", name: "GLS-Class SUV", year: "2026", price: 80000, features: "Full-size luxury SUV, three-row seating.", image: null },
+    { brand: "Mercedes-Benz", name: "GLE-Class SUV", year: "2026", price: 60000, features: "Mid-size luxury SUV, refined interior.", image: null },
+    { brand: "Mercedes-Benz", name: "GLC-Class SUV", year: "2026", price: 47000, features: "Mid-size luxury SUV, versatile interior.", image: null },
+    { brand: "Mercedes-Benz", name: "GLA-Class SUV", year: "2026", price: 36000, features: "Entry-level luxury compact SUV.", image: null },
+    { brand: "Mercedes-Benz", name: "CLE Coupé", year: "2026", price: 70000, features: "Luxury coupe, updated design.", image: null },
+    { brand: "Mercedes-Benz", name: "CLE Cabriolet", year: "2026", price: 70000, features: "Luxury convertible with premium features.", image: null },
+    { brand: "Mercedes-Benz", name: "AMG GT 4-Door Coupe", year: "2026", price: 95000, features: "Performance-luxury four-door coupe.", image: null },
+    { brand: "Mercedes-Benz", name: "AMG SL Roadster", year: "2026", price: 115000, features: "Luxury convertible sports car.", image: null },
+    { brand: "Mercedes-Benz", name: "770 'Großer Mercedes'", year: "1930", price: null, features: "Ultra-luxury limousine, used by dignitaries.", image: null },
+    { brand: "Mercedes-Benz", name: "W08 (Typ Nürburg)", year: "1928", price: null, features: "Large luxury car.", image: null },
+    { brand: "Mercedes-Benz", name: "500K", year: "1934", price: null, features: "Supercharged luxury grand tourer.", image: null },
+    { brand: "Mercedes-Benz", name: "540K", year: "1936", price: null, features: "Powerful luxury roadster/sedan.", image: null },
+    { brand: "Mercedes-Benz", name: "300 S", year: "1952", price: null, features: "Hand-built luxury model leading to 300 SL.", image: null },
+    { brand: "Mercedes-Benz", name: "300 SL Gullwing", year: "1954", price: null, features: "Iconic sports car with gullwing doors.", image: null },
+    { brand: "Mercedes-Benz", name: "190 SL", year: "1955", price: null, features: "Elegant luxury roadster related to 300 SL.", image: null },
+    { brand: "Mercedes-Benz", name: "W128 / 220 SE", year: "1958", price: null, features: "Luxury six-cylinder sedan/coupe/cabriolet.", image: null },
+    { brand: "Mercedes-Benz", name: "W111 / W112 'Heckflosse'", year: "1959", price: null, features: "Classic luxury sedans and coupes.", image: null },
+    { brand: "Mercedes-Benz", name: "300SEL 6.3", year: "1968", price: null, features: "Powerful luxury sedan, comfort + performance.", image: null },
+    { brand: "Mercedes-Benz", name: "600 (W100)", year: "1963", price: null, features: "Ultimate prestige limousine, advanced hydraulics.", image: null },
+    { brand: "Mercedes-Benz", name: "280 SE / 280 SEL", year: "1970", price: null, features: "Elegant luxury sedans of S-Class lineage.", image: null },
+    { brand: "Mercedes-Benz", name: "SL (W113) 'Pagoda'", year: "1963", price: null, features: "Stylish roadster with concave hardtop.", image: null },
+    { brand: "Mercedes-Benz", name: "W123 / W124 series", year: "1970", price: null, features: "Well-built luxury sedans and coupes.", image: null },
+    { brand: "Mercedes-Benz", name: "S-Class W116", year: "1972", price: null, features: "First model marketed as 'S-Class'.", image: null },
+    { brand: "Mercedes-Benz", name: "G-Class (early models)", year: "1979", price: null, features: "Rugged off-road SUV, classic luxury.", image: null },
+
+    { brand: "Bentley", name: "Bentayga (base)", year: "2025", price: 205925, features: "Luxury SUV with refined comfort & tech, V8/Hybrid trims available.", image: null },
+    { brand: "Bentley", name: "Bentayga S / Azure / A / Mulliner", year: "2025", price: 205925, features: "Premium SUV trims with enhanced performance or bespoke luxury.", image: null },
+    { brand: "Bentley", name: "Bentayga EWB", year: "2025", price: 236850, features: "Extended wheelbase version for even more rear legroom.", image: null },
+    { brand: "Bentley", name: "Flying Spur (base)", year: "2025", price: 280000, features: "Full-size luxury sedan with hand-crafted interior.", image: null },
+    { brand: "Bentley", name: "Flying Spur Speed / Mulliner", year: "2025", price: 320000, features: "Performance and ultra-luxury trims.", image: null },
+    { brand: "Bentley", name: "Continental GT (Coupe & Convertible)", year: "2025", price: 250000, features: "Luxury grand tourer with powerful engine options.", image: null },
+    { brand: "Bentley", name: "Continental GT Azure / Mulliner / Speed", year: "2025", price: 345000, features: "Boutique grand touring performance variants.", image: null },
+    { brand: "Bentley", name: "Mulliner Bacalar", year: "2024", price: 1900000, features: "Ultra-exclusive coachbuilt luxury 2-seater (very limited).", image: null },
+
+    { brand: "Audi", name: "A8 / A8 L", year: "2026", price: 90000, features: "Full-size executive luxury sedan, quattro AWD.", image: null },
+    { brand: "Audi", name: "A6", year: "2026", price: 69000, features: "Mid-size luxury sedan with tech focus.", image: null },
+    { brand: "Audi", name: "Q7", year: "2026", price: 60000, features: "Mid-size luxury SUV.", image: null },
+    { brand: "Audi", name: "Q8", year: "2026", price: 75000, features: "Sportier, premium SUV coupe-style.", image: null },
+
+    { brand: "BMW", name: "7-Series", year: "2026", price: 113000, features: "Full-size luxury sedan flagship.", image: null },
+    { brand: "BMW", name: "i7 (Electric 7-Series)", year: "2026", price: 120000, features: "Full-luxury EV sedan with high tech.", image: null },
+    { brand: "BMW", name: "5-Series", year: "2026", price: 68500, features: "Mid-size luxury sedan.", image: null },
+    { brand: "BMW", name: "X5", year: "2026", price: 81500, features: "Mid-size luxury SUV.", image: null },
+    { brand: "BMW", name: "X7", year: "2026", price: 100000, features: "Full-size luxury SUV.", image: null },
+
+    { brand: "Lexus", name: "LS", year: "2026", price: 75000, features: "Flagship full-size luxury sedan.", image: null },
+    { brand: "Lexus", name: "ES", year: "2026", price: 43000, features: "Mid-size luxury sedan with smooth ride.", image: null },
+    { brand: "Lexus", name: "LX 600", year: "2026", price: 95000, features: "Full-size luxury SUV.", image: null },
+    { brand: "Lexus", name: "RX", year: "2026", price: 50000, features: "Popular luxury mid-size SUV.", image: null },
+
+    { brand: "Genesis", name: "G90", year: "2026", price: 94000, features: "Full-size luxury sedan.", image: null },
+    { brand: "Genesis", name: "G80", year: "2026", price: 70500, features: "Mid-size luxury sedan.", image: null },
+    { brand: "Genesis", name: "GV80", year: "2026", price: 72000, features: "Luxury SUV.", image: null },
+    { brand: "Genesis", name: "GV70", year: "2026", price: 65000, features: "Luxury SUV.", image: null },
+
+    { brand: "Cadillac", name: "Escalade-V", year: "2026", price: 155000, features: "High-performance full-size luxury SUV.", image: null },
+    { brand: "Cadillac", name: "Lyriq", year: "2026", price: 85000, features: "Electric luxury SUV.", image: null },
+    { brand: "Cadillac", name: "CT5", year: "2026", price: 40000, features: "Luxury mid-size sedan.", image: null },
+
+    { brand: "Porsche", name: "Taycan Turbo GT", year: "2026", price: 230000, features: "Cutting-edge electric luxury performance.", image: null },
+    { brand: "Porsche", name: "Panamera", year: "2026", price: 90000, features: "Sports luxury grand tourer.", image: null },
+    { brand: "Porsche", name: "Cayenne", year: "2026", price: 85000, features: "Luxury SUV with performance edge.", image: null },
+
+    { brand: "Aston Martin", name: "DBX 707", year: "2026", price: 245000, features: "World's most powerful luxury SUV.", image: null },
+    { brand: "Aston Martin", name: "DB11", year: "2026", price: 220000, features: "Luxury GT coupe.", image: null },
+    { brand: "Aston Martin", name: "Vantage", year: "2026", price: 160000, features: "Luxury sports coupe.", image: null },
+    { brand: "Aston Martin", name: "Rapide", year: "2026", price: 200000, features: "Luxury four-door GT.", image: null },
+
+    { brand: "Ferrari", name: "SF90 Stradale", year: "2026", price: 625000, features: "Luxury supercar, hybrid.", image: null },
+    { brand: "Ferrari", name: "Roma", year: "2026", price: 250000, features: "Luxury GT coupe.", image: null },
+    { brand: "Ferrari", name: "Portofino", year: "2026", price: 240000, features: "Luxury convertible GT.", image: null },
+
+    { brand: "Lamborghini", name: "Urus", year: "2026", price: 230000, features: "Luxury SUV.", image: null },
+    { brand: "Lamborghini", name: "Aventador", year: "2026", price: 500000, features: "Exotic luxury supercar.", image: null },
+    { brand: "Lamborghini", name: "Huracán", year: "2026", price: 300000, features: "Exotic luxury supercar.", image: null },
+
+    { brand: "McLaren", name: "GT", year: "2026", price: 210000, features: "Luxury supercar with comfort.", image: null },
+    { brand: "McLaren", name: "Artura", year: "2026", price: 230000, features: "Luxury supercar, hybrid.", image: null },
+
+    { brand: "Pagani", name: "Huayra", year: "2026", price: 3000000, features: "Ultra-luxury super-exotic.", image: null },
+    { brand: "Koenigsegg", name: "Jesko", year: "2026", price: 3000000, features: "Hyper-luxury performance car.", image: null },
+    { brand: "Koenigsegg", name: "Gemera", year: "2026", price: 1700000, features: "Ultra-luxury 4-seater hypercar.", image: null },
+
+    { brand: "Lotus", name: "Emira", year: "2026", price: 90000, features: "Luxury sports coupe with high-end tech.", image: null },
+
+    { brand: "Infiniti", name: "Q70", year: "2026", price: 60000, features: "Luxury sedan.", image: null },
+    { brand: "Infiniti", name: "QX80", year: "2026", price: 95000, features: "Luxury full-size SUV.", image: null },
+
+    { brand: "Acura", name: "RLX", year: "2026", price: 58000, features: "Luxury sedan.", image: null },
+    { brand: "Acura", name: "MDX", year: "2026", price: 65000, features: "Luxury SUV.", image: null },
+
+    { brand: "Lincoln", name: "Navigator", year: "2026", price: 110000, features: "Full-size luxury SUV.", image: null },
+    { brand: "Lincoln", name: "Continental", year: "2026", price: 80000, features: "Full-size luxury sedan.", image: null },
+    { brand: "Lincoln", name: "Aviator", year: "2026", price: 75000, features: "Luxury mid-size SUV.", image: null },
+
+    { brand: "Tesla", name: "Model S", year: "2026", price: 90000, features: "Luxury EV sedan.", image: null },
+    { brand: "Tesla", name: "Model X", year: "2026", price: 95000, features: "Luxury EV SUV.", image: null },
+    { brand: "Tesla", name: "Model 3 Performance", year: "2026", price: 55000, features: "Luxury EV sedan performance trim.", image: null },
+
+    { brand: "Lucid", name: "Air", year: "2026", price: 249000, features: "Ultra-luxury electric performance sedan.", image: null },
+    { brand: "Rivian", name: "R1S", year: "2026", price: 90000, features: "Luxury electric SUV.", image: null }
+];
+
+    let itemsDisplayed = 12;
+    const grid = document.getElementById('grid');
+    const searchInput = document.getElementById('search');
+    const sortSelect = document.getElementById('sort-select');
+    const loadMoreBtn = document.getElementById('load-more');
+
+    function formatPrice(price) {
+        if (isNaN(price)) return "Price on Request";
+        return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(price);
+    }
+
+    function render() {
+        let filtered = carData.filter(car => 
+            car.brand.toLowerCase().includes(searchInput.value.toLowerCase()) ||
+            car.name.toLowerCase().includes(searchInput.value.toLowerCase()) ||
+            car.features.toLowerCase().includes(searchInput.value.toLowerCase())
+        );
+
+        if (sortSelect.value === 'year-desc') filtered.sort((a,b) => b.year - a.year);
+        if (sortSelect.value === 'brand-asc') filtered.sort((a,b) => a.brand.localeCompare(b.brand));
+        if (sortSelect.value === 'price-desc') filtered.sort((a,b) => b.price - a.price);
+
+        grid.innerHTML = '';
+        const toShow = filtered.slice(0, itemsDisplayed);
+
+        toShow.forEach(car => {
+            const card = document.createElement('div');
+            card.className = 'car-card';
+            card.innerHTML = `
+                <div class="image-placeholder">VISUAL PENDING</div>
+                <div class="car-content">
+                    <div class="car-header">
+                        <span class="car-brand">${car.brand}</span>
+                        <h3 class="car-title">${car.name}</h3>
+                    </div>
+                    <div class="car-meta">
+                        <span class="car-year">${car.year}</span>
+                        <span class="car-price">${formatPrice(car.price)}</span>
+                    </div>
+                    <div class="car-features">
+                        ${car.features}
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+
+        loadMoreBtn.style.display = itemsDisplayed >= filtered.length ? 'none' : 'block';
+    }
+
+    loadMoreBtn.addEventListener('click', () => {
+        itemsDisplayed += 12;
+        render();
+    });
+
+    searchInput.addEventListener('input', () => {
+        itemsDisplayed = 12;
+        render();
+    });
+
+    sortSelect.addEventListener('change', () => {
+        itemsDisplayed = 12;
+        render();
+    });
+
+    render();
+</script>
+
+</body>
+</html>

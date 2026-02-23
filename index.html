@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All About Cars</title>
+<link rel="icon" href="">
+
+<style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+body {
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: white;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #111;
+    padding: 15px 60px;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+    color: #ff3c00;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+.nav-links a:hover {
+    background-color: #ff3c00;
+}
+
+header {
+    text-align: center;
+    padding: 40px 0;
+    font-size: 2.5rem;
+    letter-spacing: 2px;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+}
+
+main {
+    flex: 1;
+    padding: 60px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 per row */
+    gap: 35px;
+}
+
+
+.card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    overflow: hidden;
+    text-align: center;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: white;
+    backdrop-filter: blur(10px);
+}
+
+.card:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.6);
+}
+
+.card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+}
+
+.card h2 {
+    margin: 15px 0 10px 0;
+    font-size: 1.4rem;
+}
+
+.card p {
+    padding: 0 20px 25px 20px;
+    font-size: 0.9rem;
+    opacity: 0.85;
+}
+
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    font-size: 0.9rem;
+}
+
+@media(max-width: 992px) {
+    main {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(max-width: 600px) {
+    main {
+        grid-template-columns: 1fr;
+    }
+
+    .navbar {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+
+<nav class="navbar">
+    <div class="logo">All About Cars</div>
+    <ul class="nav-links">
+        <li><a href="car-components.html">Car Components</a></li>
+        <li><a href="companies.html">Car Companies</a></li>
+        <li><a href="tuning.html">Car Tuning</a></li>
+        <li><a href="history.html">History of Cars</a></li>
+<li><a href="ai.html">CarGPT</a></li>
+    </ul>
+</nav>
+
+
+<header>
+    Welcome to the World of Cars
+</header>
+
+<main>
+
+    <a href="sports.html" class="card">
+        <img src="sports.jpg" alt="Sports Car">
+        <h2>Sports Cars</h2>
+        <p>Lightweight, agile and built for speed. Designed for thrilling performance and precision handling.</p>
+    </a>
+
+    <a href="super.html" class="card">
+        <img src="super.jpg" alt="Super Car">
+        <h2>Super Cars</h2>
+        <p>Exotic machines with extreme performance, aggressive styling, and breathtaking acceleration.</p>
+    </a>
+
+    <a href="hyper.html" class="card">
+        <img src="hyper.jpg" alt="Hyper Car">
+        <h2>Hypercars</h2>
+        <p>The absolute pinnacle of automotive engineering with cutting-edge innovation and record speeds.</p>
+    </a>
+
+    <a href="luxury.html" class="card">
+        <img src="luxury.jpg" alt="Luxury Car">
+        <h2>Luxury Cars</h2>
+        <p>Premium comfort, advanced features, and refined experiences crafted with elegance.</p>
+    </a>
+
+    <a href="evs.html" class="card">
+        <img src="ev.jpg" alt="Electric Vehicle">
+        <h2>EVs</h2>
+        <p>Electric vehicles redefining mobility with zero emissions and next-gen smart technology.</p>
+    </a>
+
+    <a href="suvs.html" class="card">
+        <img src="suv.jpg" alt="SUV">
+        <h2>SUVs</h2>
+        <p>Spacious, powerful, and versatile vehicles built for city roads and off-road adventures.</p>
+    </a>
+
+</main>
+
+<footer>
+    © 2026 All About Cars | Designed by Balram Gautam
+</footer>
+
+</body>
+</html>

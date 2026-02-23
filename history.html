@@ -1,0 +1,256 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="favicon.png">
+<title>History of Cars</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI', sans-serif;
+}
+
+body{
+    background: linear-gradient(135deg,#0f2027,#1a2a3a,#0b0f19);
+    color:white;
+    display:flex;
+    flex-direction:column;
+    min-height:100vh;
+}
+
+header{
+    text-align:center;
+    padding:50px 20px;
+    font-size:2.5rem;
+    letter-spacing:3px;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
+    border-bottom:1px solid rgba(255,255,255,0.1);
+}
+
+.section{
+    padding:60px 10%;
+}
+
+.section h2{
+    color:#00ffff;
+    margin-bottom:20px;
+    font-size:1.8rem;
+}
+
+.section p{
+    margin-bottom:30px;
+    line-height:1.8;
+    opacity:0.9;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+    gap:25px;
+}
+
+.card{
+    background: rgba(255,255,255,0.05);
+    padding:25px;
+    border-radius:15px;
+    backdrop-filter: blur(10px);
+    border:1px solid rgba(255,255,255,0.1);
+    transition:0.4s;
+}
+
+.card:hover{
+    transform:translateY(-6px);
+    border:1px solid #00ffff;
+}
+
+.card h3{
+    margin-bottom:10px;
+    font-size:1.1rem;
+    color:#ffffff;
+}
+
+.card p{
+    font-size:0.9rem;
+    opacity:0.85;
+    line-height:1.6;
+}
+
+.company-list{
+    background: rgba(255,255,255,0.05);
+    padding:25px;
+    border-radius:15px;
+    border:1px solid rgba(255,255,255,0.1);
+    line-height:1.8;
+}
+
+footer{
+    margin-top:auto;
+    text-align:center;
+    padding:25px;
+    background: rgba(255,255,255,0.05);
+    border-top:1px solid rgba(255,255,255,0.1);
+}
+
+footer a{
+    text-decoration:none;
+    color:#9ca3af;
+    transition:0.3s;
+}
+
+footer a:hover{
+    color:#00ffff;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+History of Automobiles
+</header>
+
+<section class="section">
+<h2>Early Innovation Era (1886–1919)</h2>
+<p>
+The automobile era began in 1886 when Karl Benz introduced the first gasoline-powered vehicle.
+This period focused on experimentation, mechanical reliability, and foundational engineering.
+By the early 1900s, mass production techniques such as Ford’s assembly line revolutionized accessibility.
+</p>
+
+<div class="grid">
+<div class="card">
+<h3>Ford Model T</h3>
+<p>The first mass-produced affordable automobile that changed global transportation.</p>
+</div>
+<div class="card">
+<h3>Benz Patent-Motorwagen</h3>
+<p>Recognized as the world’s first practical automobile powered by an internal combustion engine.</p>
+</div>
+<div class="card">
+<h3>Cadillac Type 53</h3>
+<p>Introduced the modern control layout still used in vehicles today.</p>
+</div>
+</div>
+</section>
+
+<section class="section">
+<h2>Classic & Pre-War Era (1920–1945)</h2>
+<p>
+Automotive design matured with improved engineering, luxury features, and stronger engines.
+Streamlined bodies and technological refinement defined this era before wartime production shifts.
+</p>
+
+<div class="grid">
+<div class="card">
+<h3>Ford Model A</h3>
+<p>Successor to the Model T with improved styling and performance.</p>
+</div>
+<div class="card">
+<h3>Rolls-Royce Phantom I</h3>
+<p>Symbol of ultimate luxury and handcrafted excellence.</p>
+</div>
+<div class="card">
+<h3>Mercedes-Benz 540K</h3>
+<p>A high-performance luxury car known for elegance and engineering strength.</p>
+</div>
+</div>
+</section>
+
+<section class="section">
+<h2>Post-War & Muscle Era (1946–1979)</h2>
+<p>
+After World War II, consumer demand surged. The 1950s emphasized bold design,
+while the 1960s and 1970s saw the rise of powerful muscle cars focused on straight-line speed.
+</p>
+
+<div class="grid">
+<div class="card">
+<h3>Ford Mustang (1964)</h3>
+<p>Defined the pony car segment and American performance culture.</p>
+</div>
+<div class="card">
+<h3>Chevrolet Camaro</h3>
+<p>A direct competitor to the Mustang with aggressive styling and engine options.</p>
+</div>
+<div class="card">
+<h3>Dodge Charger</h3>
+<p>Iconic muscle car known for raw power and bold presence.</p>
+</div>
+</div>
+</section>
+
+<section class="section">
+<h2>Modern Performance Era (1980–2009)</h2>
+<p>
+Advancements in fuel injection, turbocharging, aerodynamics, and electronics transformed performance cars.
+Japanese and European manufacturers pushed technology and reliability to new heights.
+</p>
+
+<div class="grid">
+<div class="card">
+<h3>Toyota Supra MK4</h3>
+<p>Legendary turbocharged sports car known for tuning potential.</p>
+</div>
+<div class="card">
+<h3>Nissan GT-R R34</h3>
+<p>Advanced all-wheel-drive performance machine with racing heritage.</p>
+</div>
+<div class="card">
+<h3>Ferrari F40</h3>
+<p>Raw supercar built to celebrate Ferrari’s 40th anniversary.</p>
+</div>
+</div>
+</section>
+
+<section class="section">
+<h2>Electric & Hypercar Era (2010–Present)</h2>
+<p>
+The modern era blends sustainability with extreme performance.
+Electric vehicles and hybrid hypercars redefine acceleration, efficiency, and technological integration.
+</p>
+
+<div class="grid">
+<div class="card">
+<h3>Tesla Model S</h3>
+<p>Proved electric vehicles can compete with traditional performance cars.</p>
+</div>
+<div class="card">
+<h3>Bugatti Chiron</h3>
+<p>One of the fastest and most powerful production cars ever built.</p>
+</div>
+<div class="card">
+<h3>Rimac Nevera</h3>
+<p>All-electric hypercar demonstrating the future of high-performance mobility.</p>
+</div>
+</div>
+</section>
+
+<section class="section">
+<h2>Major Car Company Founding Dates</h2>
+<div class="company-list">
+Mercedes-Benz – 1926<br>
+Ford – 1903<br>
+Toyota – 1937<br>
+BMW – 1916<br>
+Ferrari – 1939<br>
+Lamborghini – 1963<br>
+Porsche – 1931<br>
+Honda – 1948<br>
+Chevrolet – 1911<br>
+Nissan – 1933
+</div>
+</section>
+
+<footer>
+<a href="index.html">Home</a><br>
+<a href="about.html">About</a><br>
+<a href="malito:gautambalram2069@gmail.com">Contact Us</a>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SUV</title>
+<link rel="icon" type="image/png" href="favicon.png">
+    <style>
+        :root {
+            --accent: #d4af37;
+            --bg: #0f1113;
+            --card: #1c1f22;
+            --text: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Optima', 'Segoe UI', serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .grid-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(rgba(212, 175, 55, 0.03) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(212, 175, 55, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            background: radial-gradient(circle at center, #1e2124 0%, var(--bg) 100%);
+            border-bottom: 1px solid var(--accent);
+        }
+
+        header h1 {
+            font-size: 2.8rem;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            color: var(--accent);
+        }
+
+        #controls {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            background: rgba(15, 17, 19, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid #333;
+        }
+
+        #search {
+            width: 100%;
+            max-width: 400px;
+            padding: 12px 20px;
+            background: #111;
+            border: 1px solid #444;
+            color: white;
+            border-radius: 4px;
+            outline: none;
+        }
+
+        #search:focus { border-color: var(--accent); }
+
+        #grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .car-card {
+            background: var(--card);
+            border: 1px solid #2a2d30;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .car-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+
+        .car-image {
+            width: 100%;
+            height: 200px;
+            background: #000;
+            display: block;
+            object-fit: cover;
+        }
+
+        .car-content { padding: 20px; }
+        .car-brand { color: var(--accent); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; }
+        .car-title { font-size: 1.3rem; margin: 5px 0; color: #fff; }
+        .car-features { font-size: 0.85rem; color: #aaa; margin-bottom: 15px; min-height: 40px; }
+        
+        .car-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            padding-top: 10px;
+            border-top: 1px solid #333;
+        }
+
+        #load-more {
+            display: block;
+            margin: 40px auto;
+            padding: 15px 50px;
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+
+        #load-more:hover {
+            background: var(--accent);
+            color: black;
+        }
+footer{
+    margin-top:auto;
+    text-align:center;
+    padding:25px;
+    background: rgba(255,255,255,0.05);
+    border-top:1px solid rgba(255,255,255,0.1);
+}
+
+footer a{
+    text-decoration:none;
+    color:#9ca3af;
+    transition:0.3s;
+}
+
+footer a:hover{
+    color:#00ffff;
+}
+    </style>
+</head>
+<body>
+
+<div class="grid-overlay"></div>
+
+<header>
+    <h1>SUVs</h1>
+    <p>Heritage • Capability • Innovation</p>
+</header>
+
+<div id="controls">
+    <input type="text" id="search" placeholder="Filter by brand or model...">
+</div>
+
+<div id="grid"></div>
+<button id="load-more">Load More </button>
+<br>
+<footer>
+       <a href="index.html">Home</a><br>
+    <a href="about.html">About</a><br>
+   <a href="mailto:gautambalram2069@gmail.com">Contact Us</a>
+</footer>
+
+<script>
+const carData = [
+    { brand: "Toyota", name: "RAV4", year: 1994, price: 30000, features: "AWD, Hybrid option. Legendary reliability.", image: "." },
+    { brand: "Honda", name: "CR-V", year: 1995, price: 30100, features: "Spacious cabin, family practicality focus.", image: "." },
+    { brand: "Mazda", name: "CX-5", year: 2012, price: 29000, features: "Premium interior, superior driving comfort.", image: "." },
+    { brand: "Kia", name: "Sportage", year: 1993, price: 27500, features: "Modern tech stack, excellent value proposition.", image: "." },
+    { brand: "Hyundai", name: "Tucson", year: 2004, price: 28000, features: "Advanced safety systems, high comfort levels.", image: "." },
+    { brand: "Nissan", name: "Rogue", year: 2007, price: 28700, features: "Driver assist technology, smooth ride quality.", image: "." },
+    { brand: "Subaru", name: "Forester", year: 1997, price: 27800, features: "AWD standard, all-weather capability.", image: "." },
+    { brand: "Subaru", name: "Outback", year: 1994, price: 29500, features: "High ground clearance, adventure use focus.", image: "." },
+    { brand: "Ford", name: "Escape", year: 2000, price: 29000, features: "Hybrid option, fuel efficiency leader.", image: "." },
+    { brand: "Chevrolet", name: "Equinox", year: 2004, price: 27000, features: "Spacious interior, affordable price point.", image: "." },
+    { brand: "Hyundai", name: "Creta", year: 2014, price: 18000, features: "ADAS, Sunroof, feature-rich compact SUV.", image: "." },
+    { brand: "Kia", name: "Seltos", year: 2019, price: 23000, features: "Infotainment tech, great value for technology.", image: "." },
+    { brand: "Toyota", name: "Corolla Cross", year: 2020, price: 24000, features: "Hybrid efficiency, compact fuel economy.", image: "." },
+    { brand: "Volkswagen", name: "Tiguan", year: 2007, price: 28500, features: "German handling, premium cabin feel.", image: "." },
+    { brand: "MG", name: "Hector", year: 2019, price: 22000, features: "Connected tech, smart SUV features.", image: "." },
+    { brand: "Tata", name: "Nexon", year: 2017, price: 15000, features: "5-star safety rating, rugged build.", image: "." },
+    { brand: "Mahindra", name: "XUV700", year: 2021, price: 25000, features: "ADAS tech, powerful engine, high-tech cabin.", image: "." },
+    { brand: "Suzuki", name: "Vitara", year: 1988, price: 23000, features: "AWD capability, compact reliability.", image: "." },
+    { brand: "Renault", name: "Duster", year: 2010, price: 20000, features: "Strong suspension, built for rough roads.", image: "." },
+    { brand: "Peugeot", name: "3008", year: 2008, price: 32000, features: "Digital cockpit, stylish European design.", image: "." },
+    { brand: "Jeep", name: "Wrangler", year: 1986, price: 32000, features: "True 4x4, the off-road king.", image: "." },
+    { brand: "Toyota", name: "Land Cruiser", year: 1951, price: 85000, features: "Extreme durability, legendary reliability.", image: "." },
+    { brand: "Land Rover", name: "Defender", year: 1983, price: 60000, features: "Terrain response system, expedition ready.", image: "." },
+    { brand: "Ford", name: "Bronco", year: 1966, price: 39000, features: "Trail modes, built for outdoor adventure.", image: "." },
+    { brand: "Mercedes-Benz", name: "G-Class", year: 1979, price: 145000, features: "Locking differentials, luxury off-road icon.", image: "." },
+    { brand: "Mahindra", name: "Thar", year: 2010, price: 18000, features: "4x4 low range, budget off-road specialist.", image: "." },
+    { brand: "Toyota", name: "4Runner", year: 1984, price: 40000, features: "Body-on-frame construction, extreme longevity.", image: "." },
+    { brand: "Nissan", name: "Patrol", year: 1951, price: 55000, features: "Powerful engine, desert sand capability.", image: "." },
+    { brand: "Mitsubishi", name: "Pajero", year: 1982, price: 45000, features: "Super Select 4WD, tough and durable.", image: "." },
+    { brand: "Suzuki", name: "Jimny", year: 1970, price: 21000, features: "Lightweight, compact off-road master.", image: "." },
+    { brand: "Toyota", name: "Sequoia", year: 2000, price: 60000, features: "Huge space, serious towing power.", image: "." },
+    { brand: "Ford", name: "Explorer", year: 1990, price: 38000, features: "3-row seats, versatile family hauler.", image: "." },
+    { brand: "Chevrolet", name: "Tahoe", year: 1994, price: 56000, features: "Large engine, size and strength focused.", image: "." },
+    { brand: "GMC", name: "Yukon", year: 1992, price: 62000, features: "Luxury cabin, premium family transport.", image: "." },
+    { brand: "Hyundai", name: "Palisade", year: 2018, price: 37000, features: "Comfort tech, luxury value flagship.", image: "." },
+    { brand: "Kia", name: "Telluride", year: 2019, price: 36000, features: "Spacious interior, top-rated family SUV.", image: "." },
+    { brand: "Honda", name: "Pilot", year: 2002, price: 38000, features: "8-passenger seating, pure practicality.", image: "." },
+    { brand: "Nissan", name: "Pathfinder", year: 1985, price: 37000, features: "AWD, excellent family usability.", image: "." },
+    { brand: "Mazda", name: "CX-90", year: 2023, price: 40000, features: "Hybrid powertrain, premium driving dynamics.", image: "." },
+    { brand: "Volkswagen", name: "Atlas", year: 2017, price: 37000, features: "Massive cargo space, comfort-oriented.", image: "." },
+    { brand: "BMW", name: "X5", year: 1999, price: 66000, features: "Sport handling, performance luxury leader.", image: "." },
+    { brand: "Audi", name: "Q7", year: 2005, price: 60000, features: "Quattro AWD, technology-driven luxury.", image: "." },
+    { brand: "Mercedes-Benz", name: "GLE", year: 1997, price: 63000, features: "Air suspension, supreme ride comfort.", image: "." },
+    { brand: "Lexus", name: "RX", year: 1998, price: 50000, features: "Hybrid leader, reliable luxury choice.", image: "." },
+    { brand: "Volvo", name: "XC90", year: 2002, price: 57000, features: "Advanced safety tech, safety industry leader.", image: "." },
+    { brand: "Porsche", name: "Cayenne", year: 2002, price: 79000, features: "High performance, the sports car of SUVs.", image: "." },
+    { brand: "Genesis", name: "GV80", year: 2020, price: 58000, features: "Premium interior, high luxury value.", image: "." },
+    { brand: "Land Rover", name: "Range Rover", year: 1970, price: 107000, features: "Terrain system, the ultimate luxury SUV.", image: "." },
+    { brand: "Bentley", name: "Bentayga", year: 2015, price: 205000, features: "Handcrafted interior, ultra-luxury status.", image: "." },
+    { brand: "Rolls-Royce", name: "Cullinan", year: 2018, price: 390000, features: "Supreme comfort, the peak of SUV luxury.", image: "." },
+    { brand: "Tesla", name: "Model Y", year: 2020, price: 44000, features: "Long range electric, global EV bestseller.", image: "." },
+    { brand: "Hyundai", name: "Ioniq 5", year: 2021, price: 42000, features: "Fast charging, innovative design.", image: "." },
+    { brand: "Kia", name: "EV9", year: 2023, price: 55000, features: "3-row electric, family-focused EV.", image: "." },
+    { brand: "Ford", name: "Mustang Mach-E", year: 2020, price: 43000, features: "Sporty electric performance, iconic naming.", image: "." },
+    { brand: "BMW", name: "iX", year: 2021, price: 87000, features: "Luxury EV, focused on silent comfort.", image: "." },
+    { brand: "Audi", name: "Q8 e-tron", year: 2018, price: 75000, features: "AWD electric, premium EV experience.", image: "." },
+    { brand: "Mercedes-Benz", name: "EQS SUV", year: 2022, price: 105000, features: "Hyperscreen tech, flagship electric luxury.", image: "." },
+    { brand: "Rivian", name: "R1S", year: 2022, price: 78000, features: "Off-road EV, adventure-ready electric.", image: "." },
+    { brand: "Volvo", name: "EX90", year: 2024, price: 80000, features: "Lidar sensor safety, the future of protection.", image: "." },
+    { brand: "Toyota", name: "bZ4X", year: 2022, price: 43000, features: "AWD electric, Toyota reliability in EV form.", image: "." },
+    { brand: "Lamborghini", name: "Urus", year: 2018, price: 239000, features: "Twin-turbo V8, the super SUV performance.", image: "." },
+    { brand: "Aston Martin", name: "DBX", year: 2020, price: 190000, features: "Sport luxury, exotic British SUV.", image: "." },
+    { brand: "BMW", name: "X6 M", year: 2008, price: 127000, features: "High horsepower, the original coupe SUV.", image: "." },
+    { brand: "Porsche", name: "Macan", year: 2014, price: 63000, features: "Agile handling, sports car feel in SUV size.", image: "." },
+    { brand: "Jeep", name: "Trackhawk", year: 2018, price: 90000, features: "707 HP, extreme straight-line power.", image: "." },
+    { brand: "Alfa Romeo", name: "Stelvio", year: 2016, price: 50000, features: "Sharp steering, driver-focused dynamics.", image: "." },
+    { brand: "Maserati", name: "Levante", year: 2016, price: 90000, features: "Italian styling, luxury performance style.", image: "." },
+    { brand: "Dodge", name: "Durango SRT", year: 2018, price: 75000, features: "Muscle power, American performance SUV.", image: "." },
+    { brand: "Land Rover", name: "Range Rover Sport SVR", year: 2015, price: 125000, features: "Supercharged V8, speed meets luxury.", image: "." },
+    { brand: "Tesla", name: "Model X", year: 2015, price: 80000, features: "Falcon wing doors, lightning-fast EV acceleration.", image: "." },
+    { brand: "GWM", name: "Haval H6", year: 2011, price: 21000, features: "Turbo tech, best-selling SUV in China.", image: "." },
+    { brand: "Chery", name: "Tiggo 7", year: 2016, price: 19000, features: "Smart cabin, high-value affordable SUV.", image: "." },
+    { brand: "Geely", name: "Atlas", year: 2016, price: 22000, features: "Comfort tech, global value focus.", image: "." },
+    { brand: "Proton", name: "X70", year: 2018, price: 24000, features: "ADAS systems, budget premium feel.", image: "." },
+    { brand: "Skoda", name: "Kodiaq", year: 2016, price: 38000, features: "7 seats, highly practical European choice.", image: "." },
+    { brand: "Seat", name: "Ateca", year: 2016, price: 32000, features: "Sporty handling, agile driving feel.", image: "." },
+    { brand: "Dacia", name: "Duster", year: 2010, price: 18000, features: "Cheap AWD, rugged value specialist.", image: "." },
+    { brand: "Isuzu", name: "MU-X", year: 2013, price: 40000, features: "Diesel torque, extreme durability.", image: "." },
+    { brand: "Toyota", name: "Fortuner", year: 2004, price: 45000, features: "Ladder frame chassis, heavy-duty reliability.", image: "." },
+    { brand: "Mitsubishi", name: "Outlander", year: 2001, price: 32000, features: "PHEV pioneer, focused on efficiency.", image: "." }
+];
+
+let itemsDisplayed = 10;
+const grid = document.getElementById('grid');
+const searchInput = document.getElementById('search');
+const loadMoreBtn = document.getElementById('load-more');
+
+function render() {
+    let filtered = carData.filter(car => 
+        car.brand.toLowerCase().includes(searchInput.value.toLowerCase()) ||
+        car.name.toLowerCase().includes(searchInput.value.toLowerCase())
+    );
+
+    grid.innerHTML = '';
+    const toShow = filtered.slice(0, itemsDisplayed);
+
+    toShow.forEach(car => {
+        const card = document.createElement('div');
+        card.className = 'car-card';
+        card.innerHTML = `
+            <img src="${car.image}" class="car-image" alt="${car.name}">
+            <div class="car-content">
+                <span class="car-brand">${car.brand}</span>
+                <h3 class="car-title">${car.name}</h3>
+                <div class="car-features">${car.features}</div>
+                <div class="car-meta">
+                    <span>${car.year}</span>
+                    <span style="color:#fff; font-weight:bold;">$${car.price.toLocaleString()}</span>
+                </div>
+            </div>
+        `;
+        grid.appendChild(card);
+    });
+
+    loadMoreBtn.style.display = itemsDisplayed >= filtered.length ? 'none' : 'block';
+}
+
+loadMoreBtn.addEventListener('click', () => {
+    itemsDisplayed += 10;
+    render();
+});
+
+searchInput.addEventListener('input', () => {
+    itemsDisplayed = 10;
+    render();
+});
+
+render();
+</script>
+</body>
+</html>
