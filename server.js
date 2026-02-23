@@ -10,7 +10,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// 2. Serve Static Files
+// 2. Serve Static Files (Make sure index.html is in the same folder)
 app.use(express.static(path.join(__dirname, './')));
 
 // 3. The "Home" Route
@@ -22,25 +22,19 @@ app.get('/', (req, res) => {
 app.post('/api/chat', async (req, res) => {
     try {
         const { prompt } = req.body;
+        if (!prompt) return res.status(400).json({ reply: "Engine's empty!" });
 
-        if (!prompt) {
-            return res.status(400).json({ reply: "Engine's empty! Send a prompt." });
-        }
-
-        // --- THE FIX IS HERE ---
-        // We get the key inside the request to ensure Render has it ready.
         const apiKey = process.env.GEMINI_API_KEY;
-        
-        if (!apiKey) {
-            throw new Error("API Key is missing from Environment Variables");
-        }
-
         const genAI = new GoogleGenerativeAI(apiKey);
+
+        // --- MODEL UPGRADE ---
+        // gemini-2.0-flash is the 2026 standard. It's faster and avoids 404 errors.
         const model = genAI.getGenerativeModel({ 
-            model: "gemini-1.5-flash",
-            systemInstruction: "You are CarGPT, an expert automotive assistant created by Balram Gautam. Answer questions specifically about cars, engines, racing, and car history. Be concise and helpful. If asked who created you, say Balram Gautam."
+            model: "gemini-2.0-flash", 
+            systemInstruction: "You are CarGPT, an automotive assistant created by Balram Gautam. Be concise."
         });
 
+        // Simplified content generation call
         const result = await model.generateContent(prompt);
         const response = await result.response;
         const text = response.text();
@@ -48,8 +42,8 @@ app.post('/api/chat', async (req, res) => {
         res.json({ reply: text });
 
     } catch (error) {
-        // This log will help you see the EXACT error in Render Logs
-        console.error("AI Error Details:", error.message);
+        console.error("AI Error:", error.message);
+        // This will show the specific error in your chat box for easier debugging
         res.status(500).json({ reply: "Engine stalled: " + error.message });
     }
 });
