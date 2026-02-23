@@ -1,168 +1,177 @@
-﻿
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CarGPT - AI Automotive Assistant</title>
+    <style>
+        body {
+            margin: 0;
+            background: #0f172a;
+            font-family: Arial, Helvetica, sans-serif;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
 
-<title>Car AI Assistant</title>
+        .main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
 
-<link rel="icon" type="image/png" href="favicon.png">
+        .container {
+            width: 600px;
+            max-width: 100%;
+            background: #020617;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.6);
+        }
 
-<style>
-body{
-    margin:0;
-    background:#0f172a;
-    font-family:Arial, Helvetica, sans-serif;
-    color:white;
-    display:flex;
-    flex-direction:column;
-    min-height:100vh;
-}
+        h1 {
+            text-align: center;
+            margin-top: 0;
+            color: #38bdf8;
+        }
 
-.main{
-    flex:1;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
+        #chat {
+            height: 420px;
+            overflow-y: auto;
+            border: 1px solid #334155;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            background: #0f172a;
+        }
 
-.container{
-    width:600px;
-    max-width:95%;
-    background:#020617;
-    border-radius:12px;
-    padding:20px;
-    box-shadow:0 0 20px rgba(0,0,0,0.6);
-}
+        .message {
+            margin: 10px 0;
+            line-height: 1.5;
+            word-wrap: break-word;
+        }
 
-h1{
-    text-align:center;
-    margin-top:0;
-}
+        .user { color: #38bdf8; }
+        .ai { color: #22c55e; }
 
-#chat{
-    height:420px;
-    overflow-y:auto;
-    border:1px solid #334155;
-    padding:12px;
-    border-radius:8px;
-    margin-bottom:15px;
-}
+        .input-area {
+            display: flex;
+            gap: 10px;
+        }
 
-.message{
-    margin:10px 0;
-    line-height:1.4;
-}
+        input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #334155;
+            background: #1e293b;
+            color: white;
+            border-radius: 6px;
+            outline: none;
+            font-size: 15px;
+        }
 
-.user{
-    color:#38bdf8;
-}
+        input:focus { border-color: #38bdf8; }
 
-.ai{
-    color:#22c55e;
-}
+        button {
+            padding: 10px 18px;
+            background: #2563eb;
+            border: none;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
 
-.input-area{
-    display:flex;
-    gap:10px;
-}
+        button:hover { background: #1d4ed8; }
 
-input{
-    flex:1;
-    padding:10px;
-    border:none;
-    border-radius:6px;
-    outline:none;
-    font-size:15px;
-}
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #020617;
+            border-top: 1px solid #334155;
+        }
 
-button{
-    padding:10px 18px;
-    background:#2563eb;
-    border:none;
-    color:white;
-    border-radius:6px;
-    cursor:pointer;
-    font-weight:bold;
-}
-
-button:hover{
-    background:#1d4ed8;
-}
-
-footer{
-    text-align:center;
-    padding:20px;
-    background:#020617;
-    border-top:1px solid #334155;
-}
-
-footer a{
-    color:#38bdf8;
-    text-decoration:none;
-    font-size:14px;
-}
-
-footer a:hover{
-    text-decoration:underline;
-}
-</style>
+        footer a {
+            color: #38bdf8;
+            text-decoration: none;
+            font-size: 14px;
+        }
+    </style>
 </head>
-
 <body>
 
 <div class="main">
-<div class="container">
-<h1> CarGPT</h1>
-
-<div id="chat"></div>
-
-<div class="input-area">
-<input id="input" placeholder="Ask anything about cars..." autocomplete="off">
-<button id="sendBtn">Send</button>
-</div>
-
-</div>
+    <div class="container">
+        <h1>CarGPT</h1>
+        <div id="chat"></div>
+        <div class="input-area">
+            <input id="userInput" placeholder="Ask anything about cars..." autocomplete="off">
+            <button id="sendBtn">Send</button>
+        </div>
+    </div>
 </div>
 
 <footer>
-<a href='/'>Home</a><br>
-<a href="about.html">About</a><br>
-<a href="mailto:gautambalram2069@gmail.com">Contact Us</a>
+    <a href='/'>Home</a> | <a href="about.html">About</a><br>
+    <a href="mailto:gautambalram2069@gmail.com">Contact Creator: Balram Gautam</a>
 </footer>
+
 <script>
-async function askAI() {
-    const question = input.value.trim();
-    if (question === "") return;
+    const chat = document.getElementById('chat');
+    const userInput = document.getElementById('userInput');
+    const sendBtn = document.getElementById('sendBtn');
 
-    // Add user message to UI
-    addMessage("user", question);
-    input.value = "";
-    
-    // Add a "Thinking..." placeholder
-    const loadingDiv = document.createElement("div");
-    loadingDiv.className = "message ai";
-    loadingDiv.innerHTML = `<b class="ai">CarAI:</b> Typing...`;
-    chat.appendChild(loadingDiv);
-
-    try {
-       const response = await fetch('/api/chat', { ... });
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt: question })
-        });
-        
-        const data = await response.json();
-        
-        // Remove "Typing..." and add real response
-        chat.removeChild(loadingDiv);
-        addMessage("ai", data.reply);
-    } catch (error) {
-        chat.removeChild(loadingDiv);
-        addMessage("ai", "Error connecting to the garage. Is the server running?");
+    // Helper function to show messages
+    function addMessage(sender, text) {
+        const div = document.createElement("div");
+        div.className = `message ${sender}`;
+        div.innerHTML = `<b style="text-transform: capitalize;">${sender}:</b> ${text}`;
+        chat.appendChild(div);
+        chat.scrollTop = chat.scrollHeight; // Auto-scroll to bottom
     }
-}
+
+    async function askAI() {
+        const question = userInput.value.trim();
+        if (question === "") return;
+
+        addMessage("user", question);
+        userInput.value = "";
+        
+        // Show Typing indicator
+        const loadingDiv = document.createElement("div");
+        loadingDiv.className = "message ai";
+        loadingDiv.innerHTML = `<b>CarGPT:</b> Typing...`;
+        chat.appendChild(loadingDiv);
+        chat.scrollTop = chat.scrollHeight;
+
+        try {
+            const response = await fetch('/api/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt: question })
+            });
+            
+            const data = await response.json();
+            
+            chat.removeChild(loadingDiv);
+            addMessage("ai", data.reply);
+        } catch (error) {
+            if (chat.contains(loadingDiv)) chat.removeChild(loadingDiv);
+            addMessage("ai", "Error connecting to the garage. Please try again!");
+        }
+    }
+
+    // Click button to send
+    sendBtn.addEventListener('click', askAI);
+
+    // Press 'Enter' key to send
+    userInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') askAI();
+    });
 </script>
 </body>
 </html>
