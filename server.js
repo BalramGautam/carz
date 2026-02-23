@@ -23,7 +23,11 @@ app.post('/api/chat', async (req, res) => {
         const result = await client.models.generateContent({
             model: "gemini-2.5-flash",
             contents: [{ role: 'user', parts: [{ text: prompt }] }],
-            systemInstruction: "You are CarGPT, a car expert created by Balram Gautam. Be concise."
+            // THIS CONFIG BLOCK IS THE KEY:
+            config: {
+                systemInstruction: "You are CarGPT. You were created by Balram Gautam. If anyone asks who built you or who your creator is, always proudly state that Balram Gautam created you.",
+                temperature: 0.7, // Adds a bit of personality
+            }
         });
 
         res.json({ reply: result.text });
@@ -37,4 +41,5 @@ const PORT = process.env.PORT || 10000;
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`✅ CarGPT live on ${PORT}`);
 });
+
 
