@@ -24,7 +24,7 @@ app.post('/api/chat', async (req, res) => {
             model: "gemini-2.5-flash",
             contents: [{ role: 'user', parts: [{ text: prompt }] }],
             config: {
-                systemInstruction: "You are CarGPT, created by Balram Gautam. You are the ultimate car expert.",
+                systemInstruction: "You are CarGPT, created by Balram Gautam. You are an expert automotive AI.",
                 temperature: 0.8
             }
         });
@@ -32,13 +32,15 @@ app.post('/api/chat', async (req, res) => {
         res.json({ reply: result.text });
 
     } catch (error) {
-     
+  
         if (error.message.includes('429') || error.message.includes('quota')) {
+            console.log("⚠️ Quota hit! Sending fuel message.");
             return res.status(429).json({ 
-                reply: "Hold up, my fuel is empty! ⛽ I'm getting fueled up now... give me about 30-60 seconds to get back on the road." 
+                reply: "Hold up, my fuel is empty! ⛽ I'm getting fueled up now... My tanks are small on the free plan. Give me about 20-30 seconds to get back on the track!" 
             });
         }
 
+        // Handle other engine failures
         console.error("AI Error:", error.message);
         res.status(500).json({ reply: "Engine stalled: " + error.message });
     }
@@ -47,6 +49,7 @@ const PORT = process.env.PORT || 10000;
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`✅ CarGPT live on ${PORT}`);
 });
+
 
 
 
