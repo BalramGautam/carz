@@ -77,16 +77,12 @@
             transform: translateY(-5px);
             border-color: var(--accent);
         }
-        .car-image-placeholder {
+        .car-image {
             width: 100%;
-            height: 180px;
+            height: 220px;
+            object-fit: cover;
+            border-bottom: 1px solid #333;
             background: #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-            color: #444;
-            text-transform: uppercase;
         }
         .car-content { padding: 20px; flex-grow: 1; }
         .car-brand { color: var(--accent); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin: 0; }
@@ -99,13 +95,6 @@
             padding-top: 10px;
             border-top: 1px solid #333;
         }
-      .car-image {
-    width: 100%;
-    height: 220px;
-    object-fit: cover; /* This keeps the image from stretching */
-    border-bottom: 1px solid #333;
-    background: #000; /* Loading color */
-}
         #load-more {
             display: block;
             margin: 40px auto;
@@ -136,7 +125,7 @@
 </head>
 <body>
 
-<header> Electric Vehicles</header>
+<header>Electric Vehicles</header>
 
 <div id="controls">
     <input type="text" id="search" placeholder="Search by Brand or Model..." onkeyup="searchEV()">
@@ -153,7 +142,8 @@
 </footer>
 
 <script>
-let visibleCount = 12; // Start with 12 for better grid filling
+let visibleCount = 12;
+
 const evData = [
     {brand:"Tata", model:"Punch EV", type:"Hatch", keyFeature:"Micro-SUV architecture", price:"$10,995", image:"https://source.unsplash.com/featured/?Tata,Punch,ev"},
     {brand:"Dacia", model:"Spring", type:"Hatch", keyFeature:"Ultra-lightweight city car", price:"$14,500", image:"https://source.unsplash.com/featured/?Dacia,Spring,ev"},
@@ -261,19 +251,18 @@ const evData = [
     {brand:"Aspark", model:"Owl", type:"Exotic", keyFeature:"Hyper-acceleration", price:"$3,000,000", image:"https://source.unsplash.com/featured/?Aspark,Owl"},
     {brand:"DeLorean", model:"Alpha5", type:"Exotic", keyFeature:"Gullwing nostalgia", price:"$125,000", image:"https://source.unsplash.com/featured/?DeLorean,Alpha5"}
 ];
+
 const grid = document.getElementById("grid");
 const loadMoreBtn = document.getElementById("load-more");
 
-
 function createCard(car) {
-    // 1. Logic for missing image property
-    const imageSrc = car.image || 'https://placehold.co/600x400?text=EV+Coming+Soon';
-
+    const imageSrc = car.image || `https://placehold.co/600x400?text=${car.brand}`;
     return `
         <div class="car-card">
             <img class="car-image" 
                  src="${imageSrc}" 
                  alt="${car.brand} ${car.model}"
+                 loading="lazy"
                  onerror="this.src='https://placehold.co/600x400?text=Image+Unavailable'">
             <div class="car-content">
                 <p class="car-brand">${car.brand}</p>
@@ -287,22 +276,28 @@ function createCard(car) {
         </div>
     `;
 }
+
 function showCars() {
     const searchTerm = document.getElementById("search").value.toLowerCase();
     
-    // Filter logic
-    const filtered = evs.filter(car => 
+    // Filter the original data
+    const filtered = evData.filter(car => 
         car.brand.toLowerCase().includes(searchTerm) || 
         car.model.toLowerCase().includes(searchTerm)
     );
 
-    // Slice for "Load More"
+    // Get current slice
     const displayList = filtered.slice(0, visibleCount);
     
+    // Render
     grid.innerHTML = displayList.map(car => createCard(car)).join('');
 
-    // Hide button if no more to show
-    loadMoreBtn.style.display = (visibleCount >= filtered.length) ? "none" : "block";
+    // Handle button visibility
+    if (displayList.length >= filtered.length) {
+        loadMoreBtn.style.display = "none";
+    } else {
+        loadMoreBtn.style.display = "block";
+    }
 }
 
 function loadMore() {
@@ -311,11 +306,11 @@ function loadMore() {
 }
 
 function searchEV() {
-    visibleCount = 12; // Reset view on search
+    visibleCount = 12; 
     showCars();
 }
 
-// Initial Call
+// Start
 showCars();
 </script>
 
