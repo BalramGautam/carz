@@ -1,51 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Electric Vehicles</title>
-
-  <style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electric Vehicles 2026</title>
+    <style>
         :root {
             --accent: #d4af37;
             --bg: #0f1113;
             --card: #1c1f22;
             --text: #e0e0e0;
         }
-
         body {
-            font-family: 'Optima', 'Segoe UI', serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg);
             color: var(--text);
             margin: 0;
             line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
-
-        .grid-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: linear-gradient(rgba(212, 175, 55, 0.03) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(212, 175, 55, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            z-index: -1;
-            pointer-events: none;
-        }
-
         header {
             text-align: center;
             padding: 60px 20px;
             background: radial-gradient(circle at center, #1e2124 0%, var(--bg) 100%);
             border-bottom: 1px solid var(--accent);
-        }
-
-        header h1 {
+            color: var(--accent);
             font-size: 2.8rem;
-            margin: 0;
             text-transform: uppercase;
             letter-spacing: 5px;
-            color: var(--accent);
+            font-weight: bold;
         }
-
         #controls {
             display: flex;
             justify-content: center;
@@ -57,7 +43,6 @@
             z-index: 1000;
             border-bottom: 1px solid #333;
         }
-
         #search {
             width: 100%;
             max-width: 400px;
@@ -68,9 +53,8 @@
             border-radius: 4px;
             outline: none;
         }
-
         #search:focus { border-color: var(--accent); }
-
+        
         #grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -78,34 +62,36 @@
             padding: 40px;
             max-width: 1400px;
             margin: 0 auto;
+            width: 90%;
         }
-
         .car-card {
             background: var(--card);
             border: 1px solid #2a2d30;
             border-radius: 8px;
             overflow: hidden;
             transition: 0.3s;
+            display: flex;
+            flex-direction: column;
         }
-
         .car-card:hover {
             transform: translateY(-5px);
             border-color: var(--accent);
         }
-
-        .car-image {
+        .car-image-placeholder {
             width: 100%;
-            height: 200px;
+            height: 180px;
             background: #000;
-            display: block;
-            object-fit: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: #444;
+            text-transform: uppercase;
         }
-
-        .car-content { padding: 20px; }
-        .car-brand { color: var(--accent); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; }
+        .car-content { padding: 20px; flex-grow: 1; }
+        .car-brand { color: var(--accent); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin: 0; }
         .car-title { font-size: 1.3rem; margin: 5px 0; color: #fff; }
         .car-features { font-size: 0.85rem; color: #aaa; margin-bottom: 15px; min-height: 40px; }
-        
         .car-meta {
             display: flex;
             justify-content: space-between;
@@ -113,7 +99,13 @@
             padding-top: 10px;
             border-top: 1px solid #333;
         }
-
+      .car-image {
+    width: 100%;
+    height: 220px;
+    object-fit: cover; /* This keeps the image from stretching */
+    border-bottom: 1px solid #333;
+    background: #000; /* Loading color */
+}
         #load-more {
             display: block;
             margin: 40px auto;
@@ -127,175 +119,205 @@
             letter-spacing: 2px;
             transition: 0.3s;
         }
-
         #load-more:hover {
             background: var(--accent);
             color: black;
         }
-footer{
-    margin-top:auto;
-    text-align:center;
-    padding:25px;
-    background: rgba(255,255,255,0.05);
-    border-top:1px solid rgba(255,255,255,0.1);
-}
-
-footer a{
-    text-decoration:none;
-    color:#9ca3af;
-    transition:0.3s;
-}
-
-footer a:hover{
-    color:#00ffff;
-}
+        footer {
+            margin-top: auto;
+            text-align: center;
+            padding: 25px;
+            background: rgba(255,255,255,0.05);
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        footer a { text-decoration: none; color: #9ca3af; margin: 0 10px; font-size: 0.9rem; }
+        footer a:hover { color: var(--accent); }
     </style>
 </head>
-
 <body>
 
-<header>100 ELECTRIC VEHICLES</header>
+<header> Electric Vehicles</header>
 
-<div class="search-box">
-<input type="text" id="search" placeholder="Search EV..." onkeyup="searchEV()">
+<div id="controls">
+    <input type="text" id="search" placeholder="Search by Brand or Model..." onkeyup="searchEV()">
 </div>
 
-<div class="grid" id="grid"></div>
+<div id="grid"></div>
 
-<button onclick="loadMore()">Load More</button>
+<button id="load-more" onclick="loadMore()">Load More</button>
 
 <footer>
-<a href="index.html">Home</a><br>
-<a href="about.html">About</a><br>
-<a href="mailto:gautambalram2069@gmail.com">Contact Us</a>
+    <a href="#">Home</a>
+    <a href="#">About</a>
+    <a href="mailto:gautambalram2069@gmail.com">Contact Us</a>
 </footer>
 
 <script>
-
-let visible = 10;
-
-const evs = [
-{brand:"Acura", model:"ZDX", type:"SUV", keyFeature:"Google built-in, GM Ultium tech", price:"$64,500", image:"."},
-{brand:"Afeela", model:"Sedan (Sony/Honda)", type:"Sedan", keyFeature:"45 sensors, gaming-grade tech", price:"$60,000+", image:"."},
-{brand:"Alpine", model:"A110 Electric", type:"Sports", keyFeature:"Lightweight French performance", price:"$85,000", image:"."},
-{brand:"Alpine", model:"A390", type:"SUV", keyFeature:"High-performance electric 'GT'", price:"$70,000", image:"."},
-{brand:"Audi", model:"Q4 e-tron", type:"SUV", keyFeature:"Compact luxury, RWD or AWD", price:"$51,000", image:"."},
-{brand:"Audi", model:"Q6 e-tron", type:"SUV", keyFeature:"800V charging, AR Head-up Display", price:"$65,000", image:"."},
-{brand:"Audi", model:"A6 e-tron", type:"Sedan", keyFeature:"Ultra-long range (up to 450 mi)", price:"$72,000", image:"."},
-{brand:"Audi", model:"e-tron GT", type:"Sedan", keyFeature:"Performance sibling to Taycan", price:"$107,000", image:"."},
-{brand:"BMW", model:"i4", type:"Sedan", keyFeature:"Classic BMW driving dynamics", price:"$59,200", image:"."},
-{brand:"BMW", model:"i5", type:"Sedan", keyFeature:"Mid-size luxury, iDrive 9", price:"$67,000", image:"."},
-{brand:"BMW", model:"i7", type:"Sedan", keyFeature:"31-inch rear 'Theatre Screen'", price:"$105,700", image:"."},
-{brand:"BMW", model:"iX", type:"SUV", keyFeature:"Radical design, high-end luxury", price:"$87,000", image:"."},
-{brand:"BMW", model:"iX3 (Neue Klasse)", type:"SUV", keyFeature:"Next-gen battery tech & design", price:"$65,000", image:"."},
-{brand:"BYD", model:"Dolphin", type:"Hatch", keyFeature:"Global budget leader, LFP battery", price:"$28,000", image:"."},
-{brand:"BYD", model:"Atto 3", type:"SUV", keyFeature:"Rotating screen, quirky interior", price:"$35,000", image:"."},
-{brand:"BYD", model:"Seal", type:"Sedan", keyFeature:"Cell-to-body tech, Tesla rival", price:"$45,000", image:"."},
-{brand:"BYD", model:"Sealion 7", type:"SUV", keyFeature:"Performance crossover", price:"$48,000", image:"."},
-{brand:"Cadillac", model:"Lyriq", type:"SUV", keyFeature:"33-inch LED display, Super Cruise", price:"$58,500", image:"."},
-{brand:"Cadillac", model:"Optiq", type:"SUV", keyFeature:"Entry-level Caddy luxury", price:"$54,000", image:"."},
-{brand:"Cadillac", model:"Escalade IQ", type:"SUV", keyFeature:"450-mile range, four-wheel steer", price:"$130,000", image:"."},
-{brand:"Cadillac", model:"Celestiq", type:"Sedan", keyFeature:"Ultra-luxury, hand-built bespoke", price:"$340,000", image:"."},
-{brand:"Chevrolet", model:"Equinox EV", type:"SUV", keyFeature:"Best value for 300+ mile range", price:"$34,900", image:"."},
-{brand:"Chevrolet", model:"Blazer EV", type:"SUV", keyFeature:"Sporty design, Ultium platform", price:"$48,800", image:"."},
-{brand:"Chevrolet", model:"Silverado EV", type:"Truck", keyFeature:"450-mile range, 'Midgate' bed", price:"$55,400", image:"."},
-{brand:"Chevrolet", model:"Bolt (Next Gen)", type:"Hatch", keyFeature:"The return of the affordable king", price:"$28,995", image:"."},
-{brand:"Citroën", model:"e-C3", type:"Hatch", keyFeature:"European budget city car", price:"$21,500", image:"."},
-{brand:"Dacia", model:"Spring", type:"Hatch", keyFeature:"Cheapest EV in Europe/UK", price:"$14,000", image:"."},
-{brand:"Dodge", model:"Charger Daytona", type:"Muscle", keyFeature:"'Fratzonic' chambered exhaust", price:"$60,000", image:"."},
-{brand:"DS", model:"N°7", type:"SUV", keyFeature:"97kWh battery, 460-mile range", price:"$65,000", image:"."},
-{brand:"Ferrari", model:"Elettrica", type:"Super", keyFeature:"Ferrari’s first-ever full EV", price:"$400,000+", image:"."},
-{brand:"Fiat", model:"500e", type:"Hatch", keyFeature:"Retro style, compact city size", price:"$32,500", image:"."},
-{brand:"Ford", model:"Mustang Mach-E", type:"SUV", keyFeature:"Performance focus, BlueCruise", price:"$39,900", image:"."},
-{brand:"Ford", model:"F-150 Lightning", type:"Truck", keyFeature:"Home backup power, massive frunk", price:"$52,400", image:"."},
-{brand:"Ford", model:"Explorer (Europe)", type:"SUV", keyFeature:"VW MEB platform-based", price:"$48,000", image:"."},
-{brand:"Genesis", model:"GV60", type:"SUV", keyFeature:"Face recognition, crystal sphere", price:"$52,000", image:"."},
-{brand:"GMC", model:"Hummer EV", type:"Truck", keyFeature:"CrabWalk, 1,000 horsepower", price:"$97,200", image:"."},
-{brand:"GMC", model:"Sierra EV", type:"Truck", keyFeature:"Luxury pickup, Denali trim", price:"$62,400", image:"."},
-{brand:"Honda", model:"Super-ONE", type:"Hatch", keyFeature:"Ultra-compact urban city car", price:"$25,000", image:"."},
-{brand:"Hyundai", model:"IONIQ 5", type:"SUV", keyFeature:"Retro 8-bit styling, 800V tech", price:"$36,600", image:"."},
-{brand:"Hyundai", model:"IONIQ 6", type:"Sedan", keyFeature:"World-class aero efficiency", price:"$37,850", image:"."},
-{brand:"Hyundai", model:"Kona Electric", type:"SUV", keyFeature:"Practical, high-tech subcompact", price:"$34,400", image:"."},
-{brand:"Hyundai", model:"IONIQ 9", type:"SUV", keyFeature:"Massive 3-row family electric", price:"$60,500", image:"."},
-{brand:"Hyundai", model:"Inster", type:"Hatch", keyFeature:"Rugged, tiny city crossover", price:"$22,000", image:"."},
-{brand:"Jeep", model:"Recon", type:"SUV", keyFeature:"Electric Wrangler spiritual cousin", price:"$60,000", image:"."},
-{brand:"Kia", model:"EV3", type:"SUV", keyFeature:"Compact, geometric design", price:"$35,000", image:"."},
-{brand:"Kia", model:"EV4", type:"Sedan", keyFeature:"Sleek aerodynamic fastback", price:"$39,000", image:"."},
-{brand:"Kia", model:"EV6", type:"SUV", keyFeature:"Performance focused, V2L power", price:"$45,000", image:"."},
-{brand:"Kia", model:"EV9", type:"SUV", keyFeature:"Award-winning 3-row family SUV", price:"$56,500", image:"."},
-{brand:"Kia", model:"Niro EV", type:"SUV", keyFeature:"Sensible, reliable daily driver", price:"$39,600", image:"."},
-{brand:"Leapmotor", model:"B05", type:"Hatch", keyFeature:"Budget Chinese global entry", price:"$24,000", image:"."},
-{brand:"Lotus", model:"Eletre", type:"SUV", keyFeature:"Hyper-performance SUV", price:"$107,000", image:"."},
-{brand:"Lucid", model:"Air", type:"Sedan", keyFeature:"Highest range on market (500+ mi)", price:"$72,400", image:"."},
-{brand:"Lucid", model:"Gravity", type:"SUV", keyFeature:"Premium 3-row luxury", price:"$80,000", image:"."},
-{brand:"Mahindra", model:"BE 6", type:"SUV", keyFeature:"High-tech Indian 'Born Electric'", price:"$22,500", image:"."},
-{brand:"Mazda", model:"6e", type:"Sedan", keyFeature:"All-electric sports sedan", price:"$45,000", image:"."},
-{brand:"Mercedes", model:"CLA Electric", type:"Sedan", keyFeature:"480-mile range, MBUX screen", price:"$55,000", image:"."},
-{brand:"Mercedes", model:"EQE / EQS", type:"Sedan", keyFeature:"High-luxury, 'Hyperscreen'", price:"$75,000 - $104,000", image:"."},
-{brand:"Mercedes", model:"G-Class EQ", type:"SUV", keyFeature:"Iconic G-Wagon, 4-motor turn", price:"$150,000", image:"."},
-{brand:"MG", model:"Cyberster", type:"Sports", keyFeature:"Scissor doors, electric roadster", price:"$65,000", image:"."},
-{brand:"MG", model:"Windsor EV", type:"Hatch", keyFeature:"'Lounge' seating, budget focus", price:"$16,500", image:"."},
-{brand:"Mini", model:"Cooper SE", type:"Hatch", keyFeature:"Go-kart handling, updated tech", price:"$35,000", image:"."},
-{brand:"Nissan", model:"Leaf (3rd Gen)", type:"SUV", keyFeature:"Transformed from hatch to SUV", price:"$28,000", image:"."},
-{brand:"Nissan", model:"Ariya", type:"SUV", keyFeature:"High-quality Japanese interior", price:"$41,200", image:"."},
-{brand:"Polestar", model:"3 / 4", type:"SUV", keyFeature:"Scandi-minimalism, high speed", price:"$73,000 - $55,000", image:"."},
-{brand:"Porsche", model:"Taycan", type:"Sedan", keyFeature:"Benchmark for electric handling", price:"$108,000", image:"."},
-{brand:"Porsche", model:"Macan EV", type:"SUV", keyFeature:"First electric Porsche SUV", price:"$78,800", image:"."},
-{brand:"Renault", model:"5 E-Tech", type:"Hatch", keyFeature:"Neo-retro, bidirectional charging", price:"$27,000", image:"."},
-{brand:"Renault", model:"Twingo E-Tech", type:"Hatch", keyFeature:"Ultra-affordable city car", price:"$19,900", image:"."},
-{brand:"Rivian", model:"R1T / R1S", type:"Truck/SUV", keyFeature:"Off-road mastery, Gear Tunnel", price:"$74,000 - $89,000", image:"."},
-{brand:"Skoda", model:"Elroq", type:"SUV", keyFeature:"High utility, value-priced", price:"$35,000", image:"."},
-{brand:"Suzuki", model:"e-Vitara", type:"SUV", keyFeature:"Suzuki’s first global EV", price:"$32,000", image:"."},
-{brand:"Tata", model:"Punch EV", type:"SUV", keyFeature:"India's most popular compact EV", price:"$11,000", image:"."},
-{brand:"Tesla", model:"Model 3", type:"Sedan", keyFeature:"Refined suspension, NACS standard", price:"$38,600", image:"."},
-{brand:"Tesla", model:"Model Y", type:"SUV", keyFeature:"Global best-seller, versatile", price:"$42,500", image:"."},
-{brand:"Tesla", model:"Cybertruck", type:"Truck", keyFeature:"Stainless steel, steer-by-wire", price:"$81,000", image:"."},
-{brand:"Toyota", model:"bZ4X", type:"SUV", keyFeature:"Reliability-focused daily driver", price:"$44,400", image:"."},
-{brand:"Toyota", model:"HiLux EV", type:"Truck", keyFeature:"Electric version of the legend", price:"$90,000", image:"."},
-{brand:"Volkswagen", model:"ID.4", type:"SUV", keyFeature:"Restyled for 2026, better software", price:"$40,000", image:"."},
-{brand:"Volkswagen", model:"ID.2", type:"Hatch", keyFeature:"'Electric Polo,' entry-level VW", price:"$27,000", image:"."},
-{brand:"Volkswagen", model:"ID. Buzz", type:"Van", keyFeature:"Iconic retro bus, 3-row seating", price:"$61,500", image:"."},
-{brand:"Volvo", model:"EX30", type:"SUV", keyFeature:"Minimalist, fast, sustainable", price:"$40,300", image:"."}
+let visibleCount = 12; // Start with 12 for better grid filling
+const evData = [
+    {brand:"Tata", model:"Punch EV", type:"Hatch", keyFeature:"Micro-SUV architecture", price:"$10,995", image:"https://source.unsplash.com/featured/?Tata,Punch,ev"},
+    {brand:"Dacia", model:"Spring", type:"Hatch", keyFeature:"Ultra-lightweight city car", price:"$14,500", image:"https://source.unsplash.com/featured/?Dacia,Spring,ev"},
+    {brand:"Renault", model:"Twingo E-Tech", type:"Hatch", keyFeature:"Retro 90s styling", price:"$19,500", image:"https://source.unsplash.com/featured/?Renault,Twingo,ev"},
+    {brand:"Leapmotor", model:"T03", type:"Hatch", keyFeature:"Budget urban commuter", price:"$15,900", image:"https://source.unsplash.com/featured/?Leapmotor,T03,ev"},
+    {brand:"Citroen", model:"e-C3", type:"Hatch", keyFeature:"Progressive hydraulic cushions", price:"$21,500", image:"https://source.unsplash.com/featured/?Citroen,C3,ev"},
+    {brand:"Volkswagen", model:"ID.2all", type:"Hatch", keyFeature:"Polo-sized electric", price:"$26,000", image:"https://source.unsplash.com/featured/?VW,ID2,ev"},
+    {brand:"Chevrolet", model:"Bolt", type:"Hatch", keyFeature:"Ultium battery refresh", price:"$28,995", image:"https://source.unsplash.com/featured/?Chevrolet,Bolt,ev"},
+    {brand:"BYD", model:"Dolphin", type:"Hatch", keyFeature:"V2L charging capable", price:"$29,000", image:"https://source.unsplash.com/featured/?BYD,Dolphin,ev"},
+    {brand:"Fiat", model:"500e", type:"Hatch", keyFeature:"Sherpa mode efficiency", price:"$32,500", image:"https://source.unsplash.com/featured/?Fiat,500e,ev"},
+    {brand:"Mini", model:"Cooper E", type:"Hatch", keyFeature:"Go-kart handling", price:"$35,000", image:"https://source.unsplash.com/featured/?Mini,Cooper,ev"},
+    {brand:"MG", model:"MG4 EV", type:"Hatch", keyFeature:"Rear-wheel drive balance", price:"$31,000", image:"https://source.unsplash.com/featured/?MG4,ev"},
+    {brand:"Cupra", model:"Born", type:"Hatch", keyFeature:"Sporty e-Boost function", price:"$38,000", image:"https://source.unsplash.com/featured/?Cupra,Born,ev"},
+    {brand:"Nissan", model:"Leaf", type:"Hatch", keyFeature:"Crossover-hatch hybrid", price:"$31,500", image:"https://source.unsplash.com/featured/?Nissan,Leaf,ev"},
+    {brand:"Peugeot", model:"e-208", type:"Hatch", keyFeature:"i-Cockpit 3D display", price:"$34,000", image:"https://source.unsplash.com/featured/?Peugeot,208,ev"},
+    {brand:"Opel", model:"Corsa Electric", type:"Hatch", keyFeature:"German engineering simplicity", price:"$33,500", image:"https://source.unsplash.com/featured/?Opel,Corsa,ev"},
+    {brand:"Honda", model:"e:Ny1", type:"Hatch", keyFeature:"Digital-first interior", price:"$39,000", image:"https://source.unsplash.com/featured/?Honda,eNy1,ev"},
+    {brand:"Vayve", model:"Eva", type:"Hatch", keyFeature:"Solar-integrated micro", price:"$4,500", image:"https://source.unsplash.com/featured/?Micro,Car,ev"},
+    {brand:"Wuling", model:"Hongguang Mini", type:"Hatch", keyFeature:"World's cheapest EV", price:"$5,000", image:"https://source.unsplash.com/featured/?Wuling,Mini,ev"},
+    {brand:"Ora", model:"03", type:"Hatch", keyFeature:"Aesthetic retro-futurism", price:"$32,000", image:"https://source.unsplash.com/featured/?Ora,Cat,ev"},
+    {brand:"Renault", model:"5 E-Tech", type:"Hatch", keyFeature:"Iconic reborn design", price:"$27,000", image:"https://source.unsplash.com/featured/?Renault5,ev"},
+    {brand:"Tesla", model:"Model 3", type:"Sedan", keyFeature:"Minimalist glass roof", price:"$38,600", image:"https://source.unsplash.com/featured/?Tesla,Model3"},
+    {brand:"Hyundai", model:"IONIQ 6", type:"Sedan", keyFeature:"0.21 Drag coefficient", price:"$37,850", image:"https://source.unsplash.com/featured/?Ioniq6"},
+    {brand:"BMW", model:"i3", type:"Sedan", keyFeature:"Neue Klasse platform", price:"$48,000", image:"https://source.unsplash.com/featured/?BMW,i3,ev"},
+    {brand:"Xiaomi", model:"SU7", type:"Sedan", keyFeature:"HyperOS integration", price:"$35,000", image:"https://source.unsplash.com/featured/?Xiaomi,SU7"},
+    {brand:"BYD", model:"Seal", type:"Sedan", keyFeature:"CTB (Cell-to-Body) tech", price:"$45,000", image:"https://source.unsplash.com/featured/?BYD,Seal"},
+    {brand:"BMW", model:"i4", type:"Sedan", keyFeature:"Curved driver display", price:"$55,400", image:"https://source.unsplash.com/featured/?BMW,i4"},
+    {brand:"Lucid", model:"Air Pure", type:"Sedan", keyFeature:"420-mile range base", price:"$72,400", image:"https://source.unsplash.com/featured/?Lucid,Air"},
+    {brand:"Mercedes", model:"CLA Electric", type:"Sedan", keyFeature:"800V Hyper-fast charge", price:"$55,000", image:"https://source.unsplash.com/featured/?Mercedes,CLA,ev"},
+    {brand:"Tesla", model:"Model S", type:"Sedan", keyFeature:"Plaid tri-motor setup", price:"$79,900", image:"https://source.unsplash.com/featured/?Tesla,ModelS"},
+    {brand:"Polestar", model:"2", type:"Sedan", keyFeature:"Google built-in OS", price:"$49,000", image:"https://source.unsplash.com/featured/?Polestar2"},
+    {brand:"Audi", model:"A6 e-tron", type:"Sedan", keyFeature:"Virtual side mirrors", price:"$65,000", image:"https://source.unsplash.com/featured/?Audi,A6,etron"},
+    {brand:"Volkswagen", model:"ID.7", type:"Sedan", keyFeature:"Smart air vents", price:"$52,000", image:"https://source.unsplash.com/featured/?VW,ID7"},
+    {brand:"Mercedes", model:"EQE", type:"Sedan", keyFeature:"HEPA air filtration", price:"$74,900", image:"https://source.unsplash.com/featured/?Mercedes,EQE"},
+    {brand:"BMW", model:"i5", type:"Sedan", keyFeature:"Active Lane Change", price:"$67,000", image:"https://source.unsplash.com/featured/?BMW,i5"},
+    {brand:"Nio", model:"ET7", type:"Sedan", keyFeature:"Battery swap compatible", price:"$69,000", image:"https://source.unsplash.com/featured/?Nio,ET7"},
+    {brand:"Genesis", model:"G80 EV", type:"Sedan", keyFeature:"Active noise control", price:"$74,000", image:"https://source.unsplash.com/featured/?Genesis,G80,ev"},
+    {brand:"Porsche", model:"Taycan", type:"Sedan", keyFeature:"Two-speed transmission", price:"$108,000", image:"https://source.unsplash.com/featured/?Porsche,Taycan"},
+    {brand:"Zeekr", model:"001", type:"Sedan", keyFeature:"140kWh Kirin battery", price:"$58,000", image:"https://source.unsplash.com/featured/?Zeekr,001"},
+    {brand:"Xpeng", model:"P7", type:"Sedan", keyFeature:"Wing doors (Performance)", price:"$42,000", image:"https://source.unsplash.com/featured/?Xpeng,P7"},
+    {brand:"IM", model:"L7", type:"Sedan", keyFeature:"Wireless charging pad", price:"$61,000", image:"https://source.unsplash.com/featured/?IM,L7,ev"},
+    {brand:"Toyota", model:"bZ3", type:"Sedan", keyFeature:"Joint-venture efficiency", price:"$28,000", image:"https://source.unsplash.com/featured/?Toyota,bZ3"},
+    {brand:"Lexus", model:"ES Electric", type:"Sedan", keyFeature:"Quiet luxury focus", price:"$54,000", image:"https://source.unsplash.com/featured/?Lexus,ES,ev"},
+    {brand:"Afeela", model:"Sedan", type:"Sedan", keyFeature:"Sony/Honda entertainment", price:"$60,000", image:"https://source.unsplash.com/featured/?Afeela"},
+    {brand:"Dodge", model:"Charger Daytona", type:"Sedan", keyFeature:"Fratzonic exhaust sound", price:"$59,000", image:"https://source.unsplash.com/featured/?Dodge,Charger,Daytona"},
+    {brand:"Jaguar", model:"GT", type:"Sedan", keyFeature:"Ultra-luxury rebirth", price:"$120,000", image:"https://source.unsplash.com/featured/?Jaguar,GT,ev"},
+    {brand:"Tesla", model:"Model Y", type:"SUV", keyFeature:"Utility king", price:"$48,000", image:"https://source.unsplash.com/featured/?Tesla,ModelY"},
+    {brand:"Hyundai", model:"IONIQ 5", type:"SUV", keyFeature:"Pixel lighting", price:"$41,800", image:"https://source.unsplash.com/featured/?Ioniq5"},
+    {brand:"Kia", model:"EV6", type:"SUV", keyFeature:"V2L capability", price:"$45,000", image:"https://source.unsplash.com/featured/?Kia,EV6"},
+    {brand:"Volvo", model:"EX30", type:"SUV", keyFeature:"Recycled interiors", price:"$40,300", image:"https://source.unsplash.com/featured/?Volvo,EX30"},
+    {brand:"Rivian", model:"R2", type:"SUV", keyFeature:"Adventure compact", price:"$45,000", image:"https://source.unsplash.com/featured/?Rivian,R2"},
+    {brand:"Kia", model:"EV9", type:"SUV", keyFeature:"3-row swivel seats", price:"$56,500", image:"https://source.unsplash.com/featured/?Kia,EV9"},
+    {brand:"Ford", model:"Mach-E", type:"SUV", keyFeature:"Mustang DNA", price:"$39,900", image:"https://source.unsplash.com/featured/?Mustang,MachE"},
+    {brand:"Cadillac", model:"Lyriq", type:"SUV", keyFeature:"33-inch LED screen", price:"$58,500", image:"https://source.unsplash.com/featured/?Cadillac,Lyriq"},
+    {brand:"Chevrolet", model:"Equinox EV", type:"SUV", keyFeature:"Mass-market value", price:"$34,900", image:"https://source.unsplash.com/featured/?Chevrolet,Equinox,ev"},
+    {brand:"Honda", model:"Prologue", type:"SUV", keyFeature:"Google integration", price:"$47,400", image:"https://source.unsplash.com/featured/?Honda,Prologue"},
+    {brand:"Nissan", model:"Ariya", type:"SUV", keyFeature:"e-4ORCE AWD", price:"$39,500", image:"https://source.unsplash.com/featured/?Nissan,Ariya"},
+    {brand:"Audi", model:"Q6 e-tron", type:"SUV", keyFeature:"Active light signatures", price:"$63,800", image:"https://source.unsplash.com/featured/?Audi,Q6"},
+    {brand:"Porsche", model:"Macan EV", type:"SUV", keyFeature:"Performance SUV leader", price:"$78,800", image:"https://source.unsplash.com/featured/?Porsche,Macan,ev"},
+    {brand:"BMW", model:"iX", type:"SUV", keyFeature:"Sky Lounge roof", price:"$87,000", image:"https://source.unsplash.com/featured/?BMW,iX"},
+    {brand:"Mercedes", model:"EQS SUV", type:"SUV", keyFeature:"Hyperscreen dash", price:"$104,000", image:"https://source.unsplash.com/featured/?Mercedes,EQS,SUV"},
+    {brand:"Polestar", model:"3", type:"SUV", keyFeature:"Aero-optimized wing", price:"$73,000", image:"https://source.unsplash.com/featured/?Polestar3"},
+    {brand:"Rivian", model:"R1S", type:"SUV", keyFeature:"Off-road supremacy", price:"$75,000", image:"https://source.unsplash.com/featured/?Rivian,R1S"},
+    {brand:"GMC", model:"Hummer SUV", type:"SUV", keyFeature:"Extract Mode lift", price:"$98,000", image:"https://source.unsplash.com/featured/?Hummer,SUV"},
+    {brand:"Jeep", model:"Recon", type:"SUV", keyFeature:"Trail Rated EV", price:"$60,000", image:"https://source.unsplash.com/featured/?Jeep,Recon"},
+    {brand:"Subaru", model:"Solterra", type:"SUV", keyFeature:"Symmetrical AWD", price:"$45,000", image:"https://source.unsplash.com/featured/?Subaru,Solterra"},
+    {brand:"Toyota", model:"bZ4X", type:"SUV", keyFeature:"X-MODE traction", price:"$43,000", image:"https://source.unsplash.com/featured/?Toyota,bZ4X"},
+    {brand:"VinFast", model:"VF8", type:"SUV", keyFeature:"Pininfarina design", price:"$46,000", image:"https://source.unsplash.com/featured/?VinFast,VF8"},
+    {brand:"Fisker", model:"Ocean", type:"SUV", keyFeature:"SolarSky roof", price:"$38,000", image:"https://source.unsplash.com/featured/?Fisker,Ocean"},
+    {brand:"Lotus", model:"Eletre", type:"SUV", keyFeature:"Active aero tunnels", price:"$107,000", image:"https://source.unsplash.com/featured/?Lotus,Eletre"},
+    {brand:"Maserati", model:"Grecale Folgore", type:"SUV", keyFeature:"Italian soundscape", price:"$102,000", image:"https://source.unsplash.com/featured/?Maserati,Grecale"},
+    {brand:"Volvo", model:"EX90", type:"SUV", keyFeature:"Lidar standard safety", price:"$79,000", image:"https://source.unsplash.com/featured/?Volvo,EX90"},
+    {brand:"Skoda", model:"Enyaq", type:"SUV", keyFeature:"Simply Clever storage", price:"$42,000", image:"https://source.unsplash.com/featured/?Skoda,Enyaq"},
+    {brand:"Volkswagen", model:"ID.4", type:"SUV", keyFeature:"Global platform utility", price:"$39,000", image:"https://source.unsplash.com/featured/?VW,ID4"},
+    {brand:"Mazda", model:"MX-30", type:"SUV", keyFeature:"Freestyle doors", price:"$34,000", image:"https://source.unsplash.com/featured/?Mazda,MX30"},
+    {brand:"Genesis", model:"GV60", type:"SUV", keyFeature:"Crystal Sphere shifter", price:"$52,000", image:"https://source.unsplash.com/featured/?Genesis,GV60"},
+    {brand:"Lexus", model:"RZ", type:"SUV", keyFeature:"Steer-by-wire yoke", price:"$55,000", image:"https://source.unsplash.com/featured/?Lexus,RZ"},
+    {brand:"Mahindra", model:"BE 6", type:"SUV", keyFeature:"Sonic identity sound", price:"$22,000", image:"https://source.unsplash.com/featured/?Mahindra,ev"},
+    {brand:"Tata", model:"Harrier EV", type:"SUV", keyFeature:"Rugged AWD setup", price:"$30,000", image:"https://source.unsplash.com/featured/?Tata,Harrier,ev"},
+    {brand:"Maruti", model:"e Vitara", type:"SUV", keyFeature:"High ground clearance", price:"$16,000", image:"https://source.unsplash.com/featured/?Suzuki,ev"},
+    {brand:"Lucid", model:"Gravity", type:"SUV", keyFeature:"Frunk seat seating", price:"$80,000", image:"https://source.unsplash.com/featured/?Lucid,Gravity"},
+    {brand:"Ford", model:"F-150 Lightning", type:"Truck", keyFeature:"Mega Power Frunk", price:"$52,400", image:"https://source.unsplash.com/featured/?Ford,Lightning"},
+    {brand:"Rivian", model:"R1T", type:"Truck", keyFeature:"Gear Tunnel storage", price:"$74,800", image:"https://source.unsplash.com/featured/?Rivian,R1T"},
+    {brand:"Tesla", model:"Cybertruck", type:"Truck", keyFeature:"Cold-rolled steel", price:"$81,000", image:"https://source.unsplash.com/featured/?Cybertruck"},
+    {brand:"Chevrolet", model:"Silverado EV", type:"Truck", keyFeature:"4WS (4-Wheel Steer)", price:"$55,000", image:"https://source.unsplash.com/featured/?Silverado,ev"},
+    {brand:"GMC", model:"Sierra EV", type:"Truck", keyFeature:"Denali luxury trim", price:"$100,000", image:"https://source.unsplash.com/featured/?Sierra,ev"},
+    {brand:"Ram", model:"1500 REV", type:"Truck", keyFeature:"Range-extender option", price:"$60,000", image:"https://source.unsplash.com/featured/?Ram,1500,ev"},
+    {brand:"Lordstown", model:"Endurance", type:"Truck", keyFeature:"In-wheel hub motors", price:"$65,000", image:"https://source.unsplash.com/featured/?Truck,ev"},
+    {brand:"Mercedes", model:"eSprinter", type:"Van", keyFeature:"Last-mile logistics", price:"$71,000", image:"https://source.unsplash.com/featured/?Mercedes,Sprinter,ev"},
+    {brand:"Volkswagen", model:"ID.Buzz", type:"Van", keyFeature:"Microbus revival", price:"$61,500", image:"https://source.unsplash.com/featured/?IDBuzz"},
+    {brand:"Canoo", model:"Lifestyle Vehicle", type:"Van", keyFeature:"Steer-by-wire space", price:"$35,000", image:"https://source.unsplash.com/featured/?Canoo"},
+    {brand:"Ferrari", model:"Elettrica", type:"Exotic", keyFeature:"Active aero wings", price:"$500,000", image:"https://source.unsplash.com/featured/?Ferrari,Supercar"},
+    {brand:"Lamborghini", model:"Lanzador", type:"Exotic", keyFeature:"Ultra-GT 2+2", price:"$350,000", image:"https://source.unsplash.com/featured/?Lamborghini,ev"},
+    {brand:"Rimac", model:"Nevera", type:"Exotic", keyFeature:"1,900hp quad-motor", price:"$2,200,000", image:"https://source.unsplash.com/featured/?Rimac,Nevera"},
+    {brand:"Pininfarina", model:"Battista", type:"Exotic", keyFeature:"Carbon monocoque", price:"$2,000,000", image:"https://source.unsplash.com/featured/?Pininfarina,Battista"},
+    {brand:"Lotus", model:"Evija", type:"Exotic", keyFeature:"Downforce champion", price:"$2,300,000", image:"https://source.unsplash.com/featured/?Lotus,Evija"},
+    {brand:"Rolls-Royce", model:"Spectre", type:"Exotic", keyFeature:"Magic carpet ride", price:"$420,000", image:"https://source.unsplash.com/featured/?RollsRoyce,Spectre"},
+    {brand:"Cadillac", model:"Celestiq", type:"Exotic", keyFeature:"Bespoke hand-built", price:"$340,000", image:"https://source.unsplash.com/featured/?Cadillac,Celestiq"},
+    {brand:"Bentley", model:"Urban SUV", type:"Exotic", keyFeature:"Mulliner craftsmanship", price:"$250,000", image:"https://source.unsplash.com/featured/?Bentley,ev"},
+    {brand:"Maserati", model:"GranTurismo Folgore", type:"Exotic", keyFeature:"Tri-motor layout", price:"$190,000", image:"https://source.unsplash.com/featured/?Maserati,GranTurismo"},
+    {brand:"Porsche", model:"Taycan Turbo GT", type:"Exotic", keyFeature:"Attack Mode boost", price:"$230,000", image:"https://source.unsplash.com/featured/?Porsche,TurboGT"},
+    {brand:"Lucid", model:"Air Sapphire", type:"Exotic", keyFeature:"0-60 in 1.89s", price:"$249,000", image:"https://source.unsplash.com/featured/?Lucid,Sapphire"},
+    {brand:"Tesla", model:"Roadster", type:"Exotic", keyFeature:"SpaceX rocket thrusters", price:"$200,000", image:"https://source.unsplash.com/featured/?Tesla,Roadster"},
+    {brand:"McMurtry", model:"SpÃ©irling", type:"Exotic", keyFeature:"Fan-car downforce", price:"$1,000,000", image:"https://source.unsplash.com/featured/?McMurtry"},
+    {brand:"Aspark", model:"Owl", type:"Exotic", keyFeature:"Hyper-acceleration", price:"$3,000,000", image:"https://source.unsplash.com/featured/?Aspark,Owl"},
+    {brand:"DeLorean", model:"Alpha5", type:"Exotic", keyFeature:"Gullwing nostalgia", price:"$125,000", image:"https://source.unsplash.com/featured/?DeLorean,Alpha5"}
 ];
+const grid = document.getElementById("grid");
+const loadMoreBtn = document.getElementById("load-more");
 
-const grid=document.getElementById("grid");
 
-function showCars(){
-grid.innerHTML="";
-evs.slice(0,visible).forEach(car=>{
-let div=document.createElement("div");
-div.className="card";
-div.innerHTML=`
-<div class="image">Image</div>
-<p>${car}</p>`;
-grid.appendChild(div);
-});
+function createCard(car) {
+    // 1. Logic for missing image property
+    const imageSrc = car.image || 'https://placehold.co/600x400?text=EV+Coming+Soon';
+
+    return `
+        <div class="car-card">
+            <img class="car-image" 
+                 src="${imageSrc}" 
+                 alt="${car.brand} ${car.model}"
+                 onerror="this.src='https://placehold.co/600x400?text=Image+Unavailable'">
+            <div class="car-content">
+                <p class="car-brand">${car.brand}</p>
+                <h3 class="car-title">${car.model}</h3>
+                <p class="car-features">${car.keyFeature}</p>
+                <div class="car-meta">
+                    <span class="car-type">${car.type}</span>
+                    <span class="car-price">${car.price}</span>
+                </div>
+            </div>
+        </div>
+    `;
+}
+function showCars() {
+    const searchTerm = document.getElementById("search").value.toLowerCase();
+    
+    // Filter logic
+    const filtered = evs.filter(car => 
+        car.brand.toLowerCase().includes(searchTerm) || 
+        car.model.toLowerCase().includes(searchTerm)
+    );
+
+    // Slice for "Load More"
+    const displayList = filtered.slice(0, visibleCount);
+    
+    grid.innerHTML = displayList.map(car => createCard(car)).join('');
+
+    // Hide button if no more to show
+    loadMoreBtn.style.display = (visibleCount >= filtered.length) ? "none" : "block";
 }
 
-function loadMore(){
-visible+=10;
+function loadMore() {
+    visibleCount += 12;
+    showCars();
+}
+
+function searchEV() {
+    visibleCount = 12; // Reset view on search
+    showCars();
+}
+
+// Initial Call
 showCars();
-}
-
-function searchEV(){
-let value=document.getElementById("search").value.toLowerCase();
-grid.innerHTML="";
-evs.filter(c=>c.toLowerCase().includes(value))
-.forEach(car=>{
-let div=document.createElement("div");
-div.className="card";
-div.innerHTML=`
-<div class="image">Image</div>
-<p>${car}</p>`;
-grid.appendChild(div);
-});
-}
-
-showCars();
-
 </script>
-
-
 
 </body>
 </html>
