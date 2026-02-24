@@ -23,23 +23,30 @@ app.post('/api/chat', async (req, res) => {
         const result = await client.models.generateContent({
             model: "gemini-2.5-flash",
             contents: [{ role: 'user', parts: [{ text: prompt }] }],
-            // THIS CONFIG BLOCK IS THE KEY:
             config: {
-                systemInstruction: "You are CarGPT. You were created by Balram Gautam. If anyone asks who built you or who your creator is, always proudly state that Balram Gautam created you.",
-                temperature: 0.7, // Adds a bit of personality
+                systemInstruction: "You are CarGPT, created by Balram Gautam. You are the ultimate car expert.",
+                temperature: 0.8
             }
         });
 
         res.json({ reply: result.text });
+
     } catch (error) {
+     
+        if (error.message.includes('429') || error.message.includes('quota')) {
+            return res.status(429).json({ 
+                reply: "Hold up, my fuel is empty! ⛽ I'm getting fueled up now... give me about 30-60 seconds to get back on the road." 
+            });
+        }
+
         console.error("AI Error:", error.message);
         res.status(500).json({ reply: "Engine stalled: " + error.message });
     }
 });
-
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`✅ CarGPT live on ${PORT}`);
 });
+
 
 
