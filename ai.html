@@ -121,24 +121,21 @@
 </footer>
 
 <script>
-    const chat = document.getElementById('chat');
-    // FIXED: Changed 'input' to 'userInput' to match your HTML above
+    const chat = document.getElementById('chat-window'); // Make sure this ID matches your HTML
     const inputField = document.getElementById('userInput'); 
     const sendBtn = document.getElementById('sendBtn');
+    const fuelBar = document.getElementById('fuel-bar');
 
     function addMessage(sender, text) {
         const div = document.createElement("div");
-        div.className = `message ${sender}`;
+        div.className = `message ${sender === 'user' ? 'user-msg' : 'ai-msg'}`;
         div.innerHTML = `<b>${sender === 'user' ? 'You' : 'CarGPT'}:</b> ${text}`;
         chat.appendChild(div);
         chat.scrollTop = chat.scrollHeight;
     }
 
     async function askAI() {
-        if (!inputField) {
-            console.error("Input field not found!");
-            return;
-        }
+        if (!inputField) return;
 
         const question = inputField.value.trim();
         if (!question) return;
@@ -146,9 +143,11 @@
         addMessage("user", question);
         inputField.value = "";
 
-        // Create the "Typing" indicator
+        // Start "Fuel Consumption" animation
+        if(fuelBar) fuelBar.style.width = '30%';
+
         const loadingDiv = document.createElement("div");
-        loadingDiv.className = "message ai";
+        loadingDiv.className = "message ai-msg";
         loadingDiv.innerHTML = "<b>CarGPT:</b> Typing...";
         chat.appendChild(loadingDiv);
 
@@ -160,25 +159,34 @@
             });
 
             const data = await response.json();
-            
             if (chat.contains(loadingDiv)) chat.removeChild(loadingDiv);
-            
-            // Handle cases where the server might return an error message
-            const reply = data.reply || data.error || "Engine stalled. Try again!";
-            addMessage("ai", reply);
+
+            // CHECK STATUS CODE
+            if (response.status === 429) {
+                // Out of Fuel UI State
+                if(fuelBar) {
+                    fuelBar.style.width = '5%';
+                    fuelBar.style.backgroundColor = '#ff0055'; // Red alert
+                }
+                addMessage("ai", "Hold up, my fuel is empty! ⛽ I'm getting fueled up now... give me about 30 seconds to get back on the road.");
+            } else {
+                // Normal Response
+                if(fuelBar) {
+                    fuelBar.style.width = '100%';
+                    fuelBar.style.backgroundColor = '#00d4ff'; 
+                }
+                const reply = data.reply || "Engine stalled. Try again!";
+                addMessage("ai", reply);
+            }
             
         } catch (error) {
             if (chat.contains(loadingDiv)) chat.removeChild(loadingDiv);
-            addMessage("ai", "Connection failed. Please refresh the page.");
+            addMessage("ai", "Connection failed. The garage is closed. Please refresh.");
             console.error("Error:", error);
         }
     }
 
-    // Attach the events
-    if (sendBtn) {
-        sendBtn.addEventListener('click', askAI);
-    }
-    
+    if (sendBtn) sendBtn.addEventListener('click', askAI);
     if (inputField) {
         inputField.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') askAI();
@@ -187,6 +195,7 @@
 </script>
 </body>
 </html>
+
 
 
 
